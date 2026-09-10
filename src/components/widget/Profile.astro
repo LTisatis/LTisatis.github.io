@@ -1,0 +1,13 @@
+---
+import { Icon } from "astro-icon/components";
+import { profileConfig as config } from "../../config";
+import { url } from "../../utils/url-utils";
+import ImageWrapper from "../misc/ImageWrapper.astro";
+---
+<div class="card-base profile-card">
+ <a class="profile-avatar" href={url('/about/')} aria-label="关于博主">
+  {config.avatar ? <ImageWrapper src={config.avatar} alt={config.name} class="w-full h-full rounded-xl" /> : <span>{config.name.slice(0, 1)}</span>}
+ </a>
+ <div><div class="profile-name text-90">{config.name}</div><p class="profile-bio text-75">{config.bio}</p>
+ <div class="profile-links">{config.links.map(item => <a href={item.url} rel="me noopener noreferrer" target="_blank" class="btn-regular rounded-lg h-10 w-10" aria-label={item.name}><Icon name={item.icon} class="text-xl" /></a>)}</div></div>
+</div>

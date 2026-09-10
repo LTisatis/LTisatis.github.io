@@ -1,0 +1,15 @@
+---
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { url } from "../utils/url-utils";
+---
+<MainGridLayout title="页面未找到" description="这个页面不存在，返回首页继续阅读。">
+  <section class="card-base empty-state">
+    <p class="text-50">404</p>
+    <h1 class="text-3xl font-bold text-90 my-4">这一页，暂时没有故事</h1>
+    <p class="text-75">链接可能已经变更，或页面尚未发布。</p>
+    <div class="flex justify-center gap-4 mt-6">
+      <a href={url("/")} class="btn-regular px-5 py-3 rounded-xl">返回首页</a>
+      <a href={url("/archive/")} class="btn-plain px-5 py-3 rounded-xl">浏览归档</a>
+    </div>
+  </section>
+</MainGridLayout>
