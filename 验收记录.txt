@@ -24,13 +24,17 @@ Astro 检查：57 个文件，0 错误、0 警告、0 提示。
 键盘切换深浅主题正常；跨页后深色模式保留。
 正式文章可直接访问及刷新；归档和关于页可导航；未发现浏览器控制台错误。
 
-4. 当前尚未完成的外部步骤
-GitHub 公开仓库 LTisatis/LTisatis.github.io 已创建，当前尚未上传源码。
-浏览器已登录 LTisatis；本机 GitHub CLI 正等待设备授权。
-完成设备授权后：推送 main，设置 Pages 来源为 GitHub Actions，运行部署并验收正式 HTTPS 地址。
-当前不能将 https://ltisatis.github.io/ 宣称为已上线。
+4. 已完成的正式上线
+GitHub 仓库：https://github.com/LTisatis/LTisatis.github.io
+正式地址：https://ltisatis.github.io/
+Pages 来源：GitHub Actions（workflow）。
+工作流：https://github.com/LTisatis/LTisatis.github.io/actions/runs/34614538606
+build、deploy 均成功；部署代码版本：7cbd1832b3366f0cdf4bbac33de301e9d97ec327。
+正式分支仅包含清理后的发布历史，文章目录只有 welcome.md。
+早期开发历史保留在本地 codex/local-development，不推送该分支。
 
-5. 后续线上验收
-确认工作流 build、deploy 成功。
-检查 HTTPS 首页、文章深层链接、RSS、站点地图、Pagefind 文件及真实 404 响应。
-如需个人照片与更多文章，在后续提交中加入；不影响此版本部署。
+5. 线上验收
+HTTPS 首页、文章深层链接、归档、关于页、RSS、站点地图和 Pagefind 文件均返回 200。
+不存在的页面返回 404，并显示定制的中文 404 内容。
+以后向 main 推送修改会自动触发检查和发布。
+如需个人照片与更多文章，可在后续提交中加入。
