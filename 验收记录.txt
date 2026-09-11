@@ -1,5 +1,5 @@
 LTisatisのblog 验收与上线状态
-日期：2026-09-10
+日期：2026-09-11
 
 1. 已完成的本地交付
 个人信息、中文排版、原创渐变横幅、文字头像、首页、归档筛选、关于页、文章详情、目录、RSS、站点地图、robots.txt、404 和 Pagefind 搜索。
@@ -25,9 +25,9 @@ Astro 检查：57 个文件，0 错误、0 警告、0 提示。
 正式文章可直接访问及刷新；归档和关于页可导航；未发现浏览器控制台错误。
 
 4. 当前尚未完成的外部步骤
-GitHub 仓库查询返回 404，尚不能确认目标仓库可用。
-浏览器停留在 GitHub 登录页，需要用户登录 LTisatis。
-完成登录后：创建/检查 LTisatis.github.io 仓库，推送 main，设置 Pages 来源为 GitHub Actions，运行部署并验收正式 HTTPS 地址。
+GitHub 公开仓库 LTisatis/LTisatis.github.io 已创建，当前尚未上传源码。
+浏览器已登录 LTisatis；本机 GitHub CLI 正等待设备授权。
+完成设备授权后：推送 main，设置 Pages 来源为 GitHub Actions，运行部署并验收正式 HTTPS 地址。
 当前不能将 https://ltisatis.github.io/ 宣称为已上线。
 
 5. 后续线上验收

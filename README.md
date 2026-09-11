@@ -82,3 +82,5 @@ draft: false
 依赖升级在单独分支进行，保留 pnpm-lock.yaml。上游修复按需合并，不整体覆盖个人配置。构建失败先修复；线上回退通过撤销问题提交并重新部署完成。文章和原始图片另行备份。
 
 完整路线见 `个人博客完整技术方案.txt`。实际验证状态见 `验收记录.txt`。
+
+本机的 codex/local-development 分支仅保存早期开发历史，不用于发布。只推送 main，不使用 git push --all；测试样例保存在被忽略的 .private/validation 中。
