@@ -1,0 +1,25 @@
+<div class="pink-veil" aria-hidden="true"></div>
+<div class="character-stage" aria-hidden="true" data-pagefind-ignore>
+  <img class="corner-character yasuna" data-depth="65" src="/media/yasuna.png" alt="" width="1179" height="1334" />
+  <img class="corner-character sonya" data-depth="85" src="/media/sonya.png" alt="" width="1174" height="1339" />
+</div>
+<aside id="music-player" class="music-player" aria-label="背景音乐" data-pagefind-ignore>
+  <div class="music-topline">
+    <img src="/media/cover.jpg" alt="WAAAA! 音频内嵌封面" width="48" height="48" />
+    <div class="music-title"><strong>WAAAA!</strong><span>GYARI · 鏡音リン & 鏡音レン</span></div>
+    <button id="music-toggle" type="button" aria-label="播放背景音乐" aria-pressed="false" title="播放 / 暂停背景音乐">
+      <svg class="play-symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5v13l10-6.5z" /></svg>
+      <svg class="pause-symbol" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg>
+    </button>
+    <button id="music-expand" type="button" aria-label="展开播放器" aria-expanded="false" aria-controls="music-details">⌃</button>
+  </div>
+  <div id="music-details" hidden>
+    <label class="music-progress">进度 <input id="music-seek" type="range" min="0" max="100" value="0" step="0.1" /><span id="music-time">0:00</span></label>
+    <label>音量 <input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.35" /></label>
+    <p id="music-status" role="status">点击播放，让随想有一点旋律。</p>
+  </div>
+  <p id="music-autoplay-hint" class="music-autoplay-hint" role="status" hidden>点击粉色播放按钮，开启背景音乐 ♪</p>
+  <audio id="background-audio" src="/media/waaaa.mp3" preload="metadata" loop></audio>
+</aside>
+<button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false">暂停动效</button>
+<script src="../scripts/atmosphere.ts"></script>

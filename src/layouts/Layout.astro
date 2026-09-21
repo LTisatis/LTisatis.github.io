@@ -4,6 +4,7 @@ import "../styles/site.css";
 import "../styles/variables.styl";
 import "../styles/markdown-extend.styl";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
+import Atmosphere from "../components/Atmosphere.astro";
 import { profileConfig, siteConfig } from "@/config";
 import {
 	AUTO_MODE,
@@ -156,6 +157,7 @@ const bannerOffset =
 	>
 		<a class="skip-link" href="#swup-container">跳到正文</a>
 		<ConfigCarrier></ConfigCarrier>
+		<Atmosphere />
 		<slot />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->

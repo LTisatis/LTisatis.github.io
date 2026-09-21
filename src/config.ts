@@ -11,7 +11,7 @@ export const siteConfig: SiteConfig = {
 	title: blog.title,
 	subtitle: blog.subtitle,
 	lang: "zh_CN",
-	themeColor: { hue: 265, fixed: true },
+	themeColor: { hue: 350, fixed: true },
 	banner: {
 		enable: true,
 		src: "",
@@ -30,7 +30,7 @@ export const navBarConfig: NavBarConfig = {
 	],
 };
 export const profileConfig: ProfileConfig = {
-	avatar: "",
+	avatar: "/media/avatar.png",
 	name: blog.author,
 	bio: blog.bio,
 	links: blog.githubUsername
