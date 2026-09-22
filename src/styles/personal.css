@@ -55,8 +55,8 @@ html:root.dark { --card-bg: rgb(40 32 43 / .90); }
   .corner-character { top: auto; bottom: -12px; width: 35vw; height: auto; max-height: 30svh; opacity: .8; }
   .yasuna { left: -7vw; }
   .sonya { right: -7vw; }
-  html:root { --card-bg: rgb(255 250 253 / .97); }
-  html:root.dark { --card-bg: rgb(40 32 43 / .97); }
+  html:root { --card-bg: rgb(255 250 253 / .85); }
+  html:root.dark { --card-bg: rgb(40 32 43 / .85); }
   .music-player { background: rgb(255 250 253 / .97); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
   .dark .music-player { background: rgb(40 32 43 / .97); }
   .motion-toggle { top: auto; bottom: calc(148px + env(safe-area-inset-bottom, 0px)); }
