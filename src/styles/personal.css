@@ -10,6 +10,32 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 /* Keep the whole clip inside the central opening; feather its edges into the backdrop. */
 .banner-video { width: min(64vw, 1200px); height: auto; max-height: 72vh; max-width: none; position: absolute; left: 50%; top: 55%; transform: translate(-50%, -50%); object-fit: contain; mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent), linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent); mask-composite: intersect; }
 @media (max-width: 767px) { .banner-video { width: 88vw; } }
+.media-scene .banner-video { top: 50%; width: min(54vw, 1000px); max-height: 42vh; }
+.scene-tile { position: absolute; left: var(--tile-x); top: var(--tile-y); width: var(--tile-width); max-width: 310px; transform: translate(-50%, -50%) rotate(var(--tile-rotation)); opacity: .86; }
+.scene-tile img, .scene-tile video { display: block; width: 100%; height: auto; max-height: 24vh; object-fit: contain; border-radius: 22px; mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); mask-composite: intersect; }
+.scene-tile-4 { opacity: .68; }
+@media (min-width: 1024px) {
+  .scene-tile { left: var(--desktop-x); top: var(--desktop-y); width: var(--desktop-width); max-width: none; transform: translate(-50%, -50%) rotate(var(--desktop-rotation)); }
+  .scene-tile img, .scene-tile video { max-height: 18vh; }
+  .scene-tile-3, .scene-tile-4 { --edge-fade: 6%; }
+  .scene-tile-3 video, .scene-tile-4 video { mask-image: linear-gradient(to right, transparent, #000 var(--edge-fade), #000 calc(100% - var(--edge-fade)), transparent), linear-gradient(to bottom, transparent, #000 var(--edge-fade), #000 calc(100% - var(--edge-fade)), transparent); }
+}
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .scene-tile { left: var(--compact-x); width: var(--compact-width); }
+}
+/* Taller desktop viewports leave a narrower opening between the fixed-height portraits. */
+@media (min-width: 1024px) and (max-aspect-ratio: 185/100) {
+  .scene-tile-1 { left: 45%; top: 13%; width: 7vw; }
+  .scene-tile-2 { left: 50%; top: 23%; width: 9vw; }
+  .scene-tile-3 { left: 56%; top: 13%; width: 7vw; }
+}
+@media (max-width: 767px) {
+  .media-scene .banner-video { width: 88vw; max-height: 32svh; }
+  .scene-tile { width: 29vw; opacity: .65; }
+  .scene-tile img, .scene-tile video { max-height: 18svh; border-radius: 12px; }
+  .scene-tile-1, .scene-tile-4 { left: 16%; }
+  .scene-tile-3, .scene-tile-6 { left: 84%; }
+}
 html:root { --page-bg: #fff5f8; }
 html:root.dark { --page-bg: #251f28; }
 body, .dark body { background: transparent; isolation: isolate; }

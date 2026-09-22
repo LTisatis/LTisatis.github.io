@@ -3,7 +3,8 @@ import confetti from "canvas-confetti";
 const motionButton = document.querySelector<HTMLButtonElement>("#motion-toggle");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const pointer = matchMedia("(pointer: fine)");
-const video = document.querySelector<HTMLVideoElement>("#ambient-video");
+const desktopScene = matchMedia("(min-width: 1024px)");
+const videos = [...document.querySelectorAll<HTMLVideoElement>("[data-ambient-video]")];
 const layers = [...document.querySelectorAll<HTMLElement>("[data-depth]")];
 const read = (key: string) => { try { return localStorage.getItem(key); } catch { return null; } };
 const save = (key: string, value: string) => { try { localStorage.setItem(key, value); } catch { /* Storage can be unavailable in private contexts. */ } };
@@ -18,7 +19,7 @@ function animate() {
   x += (tx - x) * 0.045;
   y += (ty - y) * 0.045;
   for (const layer of layers) {
-    const depth = Number(layer.dataset.depth);
+    const depth = Number(desktopScene.matches ? (layer.dataset.desktopDepth ?? layer.dataset.depth) : layer.dataset.depth);
     layer.style.translate = `${x * depth}px ${y * depth * 0.65}px`;
   }
   if (Math.abs(tx-x) + Math.abs(ty-y) > 0.001) frame = requestAnimationFrame(animate);
@@ -30,8 +31,14 @@ function syncMotion() {
   if (stopped() || document.hidden) {
     cancelAnimationFrame(frame); frame=0; x=0; y=0; tx=0; ty=0;
     for (const layer of layers) layer.style.translate = "0px 0px";
-    video?.pause(); confetti.reset();
-  } else video?.play().catch(() => { if (motionButton) motionButton.textContent = "点击启用动效"; });
+    for (const video of videos) video.pause();
+    confetti.reset();
+  } else {
+    for (const video of videos) {
+      video.muted = true;
+      void video.play().catch(() => { if (motionButton) motionButton.textContent = "点击启用动效"; });
+    }
+  }
 }
 document.addEventListener("pointermove", e => { if (!stopped() && pointer.matches) target((e.clientX/innerWidth-0.5)*2, (e.clientY/innerHeight-0.5)*2); }, { passive: true });
 document.documentElement.addEventListener("pointerleave", () => target(0,0));

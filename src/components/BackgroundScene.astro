@@ -1,0 +1,24 @@
+---
+const decorations = [
+  { id: 1, x: 29, y: 17, depth: 18, rotation: -5, width: 16 },
+  { id: 2, x: 50, y: 15, depth: 28, rotation: 3, width: 15 },
+  { id: 3, x: 71, y: 18, depth: 22, rotation: 5, width: 17 },
+  { id: 4, x: 29, y: 82, depth: 32, rotation: -4, width: 17 },
+  { id: 5, x: 50, y: 84, depth: 24, rotation: 2, width: 21 },
+  { id: 6, x: 71, y: 81, depth: 36, rotation: 4, width: 15 },
+];
+const desktop = [
+  { x: 42, y: 14, width: 9, rotation: -8, depth: 12 },
+  { x: 52, y: 21, width: 11, rotation: 3, depth: 20 },
+  { x: 61, y: 12, width: 10, rotation: 7, depth: 15 },
+  { x: 40, y: 76, width: 10, rotation: -6, depth: 22 },
+  { x: 53, y: 85, width: 14, rotation: 2, depth: 16 },
+  { x: 63, y: 73, width: 9, rotation: 8, depth: 25 },
+];
+---
+<div id="banner" class="personal-banner media-scene w-full h-full" aria-hidden="true">
+  <video id="ambient-video" class="banner-video" data-ambient-video data-depth="40" src="/media/banner.mp4" autoplay muted loop playsinline preload="auto" tabindex="-1"></video>
+  {decorations.map((item, index) => <div class={`scene-tile scene-tile-${item.id}`} data-depth={item.depth} data-desktop-depth={desktop[index].depth} style={`--tile-x:${item.x}%;--tile-y:${item.y}%;--tile-width:${item.width}vw;--tile-rotation:${item.rotation}deg;--desktop-x:${desktop[index].x}%;--desktop-y:${desktop[index].y}%;--desktop-width:${desktop[index].width}vw;--desktop-rotation:${desktop[index].rotation}deg;--compact-x:${50 + (desktop[index].x - 50) * .75}%;--compact-width:${desktop[index].width * .8}vw`}>
+    {item.id === 1 ? <img src="/media/scene/1.jpg" alt="" width="850" height="850" /> : <video data-ambient-video src={`/media/scene/${item.id}.mp4`} autoplay muted loop playsinline preload="metadata" tabindex="-1"></video>}
+  </div>)}
+</div>

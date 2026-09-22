@@ -14,6 +14,7 @@ import {
 	MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
 } from "../constants/constants";
 import Layout from "./Layout.astro";
+import BackgroundScene from "../components/BackgroundScene.astro";
 
 interface Props {
 	title?: string;
@@ -56,7 +57,7 @@ const mainPanelTop = siteConfig.banner.enable
     {siteConfig.banner.src ? <ImageWrapper id="banner" alt="Banner image of the blog" class:list={["object-cover h-full transition duration-700 opacity-0 scale-105"]}
                   src={siteConfig.banner.src} position={siteConfig.banner.position}
     >
-    </ImageWrapper> : <div id="banner" class="personal-banner w-full h-full" aria-hidden="true"><video id="ambient-video" class="banner-video" data-depth="40" src="/media/banner.mp4" autoplay muted loop playsinline preload="auto" tabindex="-1"></video></div>}
+    </ImageWrapper> : <BackgroundScene />}
 </div>}
 
 <!-- Main content -->
