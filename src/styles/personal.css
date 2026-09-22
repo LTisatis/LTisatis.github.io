@@ -50,6 +50,17 @@ html:root.dark { --card-bg: rgb(40 32 43 / .90); }
 .footer { padding-bottom: 100px; }
 @media (max-width: 767px) { .yasuna { left: -48vh; } .sonya { right: -48vh; } .music-player { bottom: 12px; width: min(270px, calc(100vw - 100px)); } .music-title span { display: none; } .music-topline { gap: 6px; } .music-topline img { width: 30px; height: 30px; } .motion-toggle { top: 76px; } }
 .profile-card { padding: 1.5rem; }
+/* Phone composition uses viewport width, so tall screens cannot enlarge the characters. */
+@media (max-width: 767px) {
+  .corner-character { top: auto; bottom: -12px; width: 35vw; height: auto; max-height: 30svh; opacity: .8; }
+  .yasuna { left: -7vw; }
+  .sonya { right: -7vw; }
+  html:root { --card-bg: rgb(255 250 253 / .97); }
+  html:root.dark { --card-bg: rgb(40 32 43 / .97); }
+  .music-player { background: rgb(255 250 253 / .97); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .dark .music-player { background: rgb(40 32 43 / .97); }
+  .motion-toggle { top: auto; bottom: calc(148px + env(safe-area-inset-bottom, 0px)); }
+}
 .profile-avatar { display: flex; align-items: center; justify-content: center; width: 5rem; height: 5rem; margin: .5rem auto 1.25rem; border-radius: 1.5rem; background: var(--btn-regular-bg); color: var(--primary); font-size: 2rem; font-weight: 700; }
 .profile-name { text-align: center; font-size: 1.25rem; font-weight: 700; color: var(--deep-text); }
 .profile-bio { text-align: center; margin-top: .7rem; font-size: .95rem; line-height: 1.8; }
