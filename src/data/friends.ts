@@ -14,6 +14,12 @@ export const friends: Friend[] = [
 		url: "https://supralune.com/",
 		description: "关于学习、技术与日常折腾的博客",
 	},
+	{
+		name: "奶糖写字的地方（大白兔奶糖）",
+		url: "https://iwhite-rabbit.github.io/",
+		description: "美人如玉剑如虹",
+		avatar: "https://iwhite-rabbit.github.io/images/avatar.jpeg",
+	},
 ];
 
 for (const friend of friends) {
