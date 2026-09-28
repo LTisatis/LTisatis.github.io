@@ -1,0 +1,11 @@
+Waline backend template: https://github.com/walinejs/waline/tree/main/example
+Schema: https://github.com/walinejs/waline/blob/main/assets/waline.pgsql
+Template inspected: 2026-09-27
+Pinned server dependency: @waline/vercel 1.42.0
+Pinned blog client dependency: @waline/client 3.16.0
+This directory is a separate deployment root. Do not deploy the blog root to Vercel.
+
+Deployment compatibility:
+- NODE_OPTIONS=--experimental-require-module must also be configured in Vercel Production environment.
+- .npmrc uses node-linker=hoisted for server dynamic module resolution and Vercel includeFiles.
+- Formula font, chemistry parser and region data packages are explicit pinned dependencies so their runtime assets are included.

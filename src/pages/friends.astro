@@ -1,0 +1,40 @@
+---
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import Comments from "../components/Comments.astro";
+import { friends } from "../data/friends";
+import { profileConfig, siteConfig } from "../config";
+
+const siteURL = new URL("/", Astro.site).href;
+const avatarURL = new URL(profileConfig.avatar || "/favicon.svg", Astro.site).href;
+const exchange = `名称：${siteConfig.title}\n网址：${siteURL}\n简介：${profileConfig.bio}\n头像：${avatarURL}`;
+---
+<MainGridLayout title="友链" description="去朋友们的小天地逛一逛，也欢迎交换友链。">
+  <section class="card-base community-card friends-intro">
+    <p class="community-eyebrow">在互联网的一角，遇见彼此</p>
+    <h1>朋友们的小天地</h1>
+    <p class="community-muted">写下日常，分享喜欢的事物。这里收藏那些值得慢慢逛的个人网站。</p>
+    {friends.length ? <div class="friend-grid">
+      {friends.map(friend => <a class="friend-card" href={friend.url} target="_blank" rel="noopener noreferrer" data-no-swup>
+        <span class="friend-avatar" aria-hidden="true"><span>{Array.from(friend.name)[0]}</span>{friend.avatar && <img src={friend.avatar} alt="" width="56" height="56" loading="lazy" referrerpolicy="no-referrer" data-friend-avatar />}</span>
+        <span class="friend-text"><strong>{friend.name}<span aria-hidden="true"> ↗</span></strong><span>{friend.description}</span></span>
+      </a>)}
+    </div> : <div class="friends-empty"><span aria-hidden="true">✿</span><p>第一位邻居的位置，还在等你。</p><p class="community-muted">如果你也有自己的小天地，欢迎在下方介绍给我。</p></div>}
+  </section>
+  <section class="card-base community-card" aria-labelledby="exchange-heading">
+    <p class="community-eyebrow">交换一张小名片</p>
+    <h2 id="exchange-heading">本站信息</h2>
+    <div class="exchange-profile"><img src={avatarURL} alt="LTisatis 的头像" width="64" height="64" /><div><strong>{siteConfig.title}</strong><p class="community-muted">{profileConfig.bio}</p></div></div>
+    <dl class="exchange-details"><dt>网址</dt><dd><a href={siteURL}>{siteURL}</a></dd><dt>头像</dt><dd><a href={avatarURL} target="_blank" rel="noopener noreferrer" data-no-swup>{avatarURL}</a></dd></dl>
+    <pre class="exchange-copy" data-exchange-text>{exchange}</pre>
+    <button class="community-button" type="button" data-copy-exchange>复制本站信息</button>
+    <span class="copy-status community-muted" data-copy-status role="status" aria-live="polite"></span>
+  </section>
+  <section class="card-base community-card" aria-labelledby="apply-heading">
+    <p class="community-eyebrow">欢迎来做邻居</p>
+    <h2 id="apply-heading">申请友链</h2>
+    <p>请在下方留言介绍你的网站：<strong>名称、网址、简介</strong>，以及可选的头像地址。</p>
+    <p class="community-muted">欢迎有原创内容、可以正常访问的个人网站。申请留言公开展示；我确认后会手动加入友链列表。</p>
+    <p>也可以写信给 <a href="mailto:1902438828@qq.com">1902438828@qq.com</a>。</p>
+  </section>
+  <Comments path="/friends/" title="来交换友链吧" />
+</MainGridLayout>

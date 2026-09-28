@@ -1,6 +1,7 @@
 ---
 import path from "node:path";
 import License from "@components/misc/License.astro";
+import Comments from "../../components/Comments.astro";
 import Markdown from "@components/misc/Markdown.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
@@ -135,4 +136,5 @@ const jsonLd = {
         </a>
     </div>
 
+    <Comments path={getPostUrlBySlug(entry.slug)} />
 </MainGridLayout>

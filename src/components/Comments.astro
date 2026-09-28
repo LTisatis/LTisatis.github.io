@@ -1,0 +1,27 @@
+---
+import { isWebUrl } from "../utils/community-utils";
+
+interface Props {
+	path: string;
+	title?: string;
+}
+const { path, title = "聊一聊" } = Astro.props;
+const serverURL = (import.meta.env.PUBLIC_WALINE_SERVER_URL ?? "https://ltisatis-comments.vercel.app").trim().replace(/\/+$/, "");
+if (serverURL && (!isWebUrl(serverURL) || !serverURL.startsWith("https://"))) {
+	throw new Error("PUBLIC_WALINE_SERVER_URL must be an HTTPS URL");
+}
+const preview = import.meta.env.DEV || process.env.BLOG_PREVIEW === "1";
+---
+<section class="card-base community-card comments-section" aria-labelledby="comments-heading" data-pagefind-ignore data-comments data-path={path} data-server={serverURL} data-preview={String(preview)}>
+  <p class="community-eyebrow">留下你的声音</p>
+  <h2 id="comments-heading">{title}</h2>
+  <p class="community-muted">无需登录，填写昵称即可留言。评论和昵称会公开显示，邮箱不会公开。</p>
+  <p class="community-muted" data-comment-preview hidden>这里是本地测试评论区，留言不会混入正式页面。</p>
+  <div class="comment-status" data-comment-status role="status" aria-live="polite">
+    {serverURL ? "正在连接评论区…" : "评论尚未开通，欢迎稍后再来。"}
+  </div>
+  <button class="community-button" type="button" data-comment-retry hidden>重新连接</button>
+  <div data-comment-mount></div>
+  <noscript><p>评论需要启用 JavaScript；也可以通过 <a href="mailto:1902438828@qq.com">邮件</a>联系我。</p></noscript>
+</section>
+

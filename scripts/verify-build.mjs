@@ -4,7 +4,7 @@ import path from "node:path";
 const preview = process.argv.includes("--preview");
 const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]);
 const files = walk("dist");
-for (const needed of ["index.html", "about/index.html", "archive/index.html", "404.html", "rss.xml", "sitemap-index.xml", "robots.txt", "pagefind/pagefind.js"]) {
+for (const needed of ["index.html", "about/index.html", "friends/index.html", "archive/index.html", "404.html", "rss.xml", "sitemap-index.xml", "robots.txt", "pagefind/pagefind.js"]) {
  assert.ok(fs.existsSync(path.join("dist", needed)), `Missing ${needed}`);
 }
 for (const file of files.filter(f => /\.(html|xml|json|txt|js)$/.test(f))) {
