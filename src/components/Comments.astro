@@ -6,7 +6,7 @@ interface Props {
 	title?: string;
 }
 const { path, title = "聊一聊" } = Astro.props;
-const serverURL = (import.meta.env.PUBLIC_WALINE_SERVER_URL ?? "https://ltisatis-comments.vercel.app").trim().replace(/\/+$/, "");
+const serverURL = (import.meta.env.PUBLIC_WALINE_SERVER_URL ?? "https://ltisatis-comments-test.netlify.app/.netlify/functions/comment").trim().replace(/\/+$/, "");
 if (serverURL && (!isWebUrl(serverURL) || !serverURL.startsWith("https://"))) {
 	throw new Error("PUBLIC_WALINE_SERVER_URL must be an HTTPS URL");
 }

@@ -1,0 +1,11 @@
+Template: https://github.com/walinejs/netlify-starter
+Commit: 1f28ff135b7c90bf5017a9c8c194d0a87557575b
+Waline: 1.42.0
+Netlify adapter: serverless-http 4.0.0
+Node: 24.x; pnpm: 9.14.4
+No database initialization is performed.
+Anonymous comments and password admin login use a local empty OAuth provider
+list, avoiding a remote oauth.lithub.cc request on every API call.
+Netlify's reserved SITE_NAME is mapped from WALINE_SITE_NAME at runtime.
+Use zisi bundling and exclude source maps / unused SQLite build sources to
+keep the extracted function below the platform package size limit.

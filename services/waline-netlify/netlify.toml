@@ -1,0 +1,11 @@
+[build]
+  publish = "public"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "zisi"
+  external_node_modules = ["@waline/vercel", "serverless-http", "@mathjax/mathjax-newcm-font", "mhchemparser", "ip2region"]
+  included_files = ["node_modules/@mathjax/**", "node_modules/mhchemparser/**", "node_modules/ip2region/data/**", "!node_modules/**/*.map", "!node_modules/better-sqlite3/deps/**"]

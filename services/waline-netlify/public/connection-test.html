@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>评论连接测试</title>
+<style>body{font:16px/1.8 system-ui;margin:2rem auto;padding:0 1rem;max-width:44rem;background:#fff6fa;color:#382d35}button,select{font:inherit;padding:.5rem;margin:.3rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:white;padding:1rem;border-radius:12px}button{cursor:pointer}label{display:block}</style>
+<h1>评论连接测试</h1>
+<p>请关闭 VPN、代理和浏览器加速，再分别测试家庭 Wi-Fi 与手机流量。此页不会自动识别你的网络或代理状态。</p>
+<label>当前网络 <select id="network"><option>家庭宽带 Wi-Fi</option><option>手机流量</option></select></label>
+<label><input id="direct" type="checkbox">我已确认关闭代理</label>
+<button id="read">测试读取</button><button id="write">提交一条测试留言</button><button id="export">下载测试记录</button>
+<p>每种网络测试三轮，其中一轮请隔一段时间后再试。提交间隔至少 60 秒；超时后先读取确认，避免重复提交。</p>
+<p>记录中的“读取成功”只代表读取接口可用，不能代替提交、回复、翻页及管理删除验收。请勿在测试留言中填写个人信息。</p>
+<pre id="output" role="status">尚未测试</pre>
+<script>
+const base = '/.netlify/functions/comment';
+const thread = '/__preview__/netlify-connectivity/';
+const records = [];
+const output = document.querySelector('#output');
+async function test(write) {
+  if (!document.querySelector('#direct').checked) { output.textContent = '请先关闭代理并勾选确认。'; return; }
+  const buttons = [document.querySelector('#read'), document.querySelector('#write')];
+  buttons.forEach(button => button.disabled = true);
+  const network = document.querySelector('#network').value;
+  const started = performance.now();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  const record = {time: new Date().toISOString(), network, proxyOff: '用户确认', operation: write ? '提交' : '读取'};
+  try {
+    const options = {signal: controller.signal};
+    if (write) Object.assign(options, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({nick:'网络连通性测试',url:thread,comment:`[测试] ${network} ${record.time}`,mail:'',link:''})});
+    const response = await fetch(base + '/api/comment' + (write ? '' : '?' + new URLSearchParams({path:thread,page:'1',pageSize:'10'})), options);
+    record.http = response.status;
+    const data = await response.json();
+    record.success = response.ok && data.errno === 0;
+    record.result = record.success ? '成功' : String(data.errmsg || '接口返回失败');
+    if (!write && record.success) record.count = data.data.count;
+  } catch(error) { record.success = false; record.result = error.name === 'AbortError' ? '15 秒超时，未自动重试' : '网络请求失败'; }
+  finally { clearTimeout(timeout); record.ms = Math.round(performance.now()-started); records.push(record); output.textContent = JSON.stringify(records,null,2); buttons.forEach(button=>button.disabled=false); }
+}
+document.querySelector('#read').onclick=()=>test(false);
+document.querySelector('#write').onclick=()=>test(true);
+document.querySelector('#export').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(records,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='comment-network-check.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+</script>
+</html>
