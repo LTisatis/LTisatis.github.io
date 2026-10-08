@@ -1,0 +1,18 @@
+/* Independent scale/translate preserve existing hover and page transitions. */
+.card-base.card-tap, .friend-card.card-tap {
+  transition: scale 280ms cubic-bezier(.2, 1.5, .4, 1),
+    translate 280ms cubic-bezier(.2, 1.5, .4, 1),
+    transform 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+.card-tap:has(a:active), a.card-tap:active {
+  scale: .985;
+  translate: 0 2px;
+  box-shadow: inset 0 0 0 2px rgb(218 119 165 / .2);
+  transition-duration: 90ms;
+  transition-timing-function: ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-base.card-tap, .friend-card.card-tap { transition: none; }
+  .card-tap:has(a:active), a.card-tap:active { scale: none; translate: none; }
+  .friend-card.card-tap:hover { transform: none; }
+}

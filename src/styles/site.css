@@ -6,6 +6,7 @@
 @import "./photoswipe.css";
 @import "./personal.css";
 @import "./welcome.css";
+@import "./card-motion.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

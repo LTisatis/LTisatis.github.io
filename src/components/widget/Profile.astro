@@ -4,7 +4,7 @@ import { profileConfig as config } from "../../config";
 import { url } from "../../utils/url-utils";
 import ImageWrapper from "../misc/ImageWrapper.astro";
 ---
-<div class="card-base profile-card">
+<div class="card-base profile-card card-tap">
  <a class="profile-avatar" href={url('/about/')} aria-label="关于博主">
   {config.avatar ? <ImageWrapper src={config.avatar} alt={config.name} class="w-full h-full rounded-xl" /> : <span>{config.name.slice(0, 1)}</span>}
  </a>
