@@ -20,7 +20,9 @@ function pose(character: HTMLElement, index: number) {
   return { x: centerX - (rect.left + rect.width / 2), y: centerY - (rect.top + rect.height / 2), scale, rect };
 }
 
-if (entry && characters.length === 2) {
+// Only the initial document bootstrap may request the welcome scene. Swup may
+// execute page scripts again; neither that nor a full internal load should replay it.
+if (entry && characters.length === 2 && root.classList.contains("welcome-pending")) {
   root.classList.replace("welcome-pending", "welcome-active");
   root.classList.add("welcome-active");
   content.forEach(element => { element.inert = true; });

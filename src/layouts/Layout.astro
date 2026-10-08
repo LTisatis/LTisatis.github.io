@@ -83,8 +83,18 @@ const bannerOffset =
         <script is:inline>
           if (!window.__blogWelcomeBoot) {
             window.__blogWelcomeBoot = true;
-            document.documentElement.classList.add('welcome-pending');
-            setTimeout(() => document.documentElement.classList.remove('welcome-pending'), 8000);
+            let seen = false;
+            try {
+              seen = sessionStorage.getItem('blog-welcome-seen') === '1';
+              sessionStorage.setItem('blog-welcome-seen', '1');
+            } catch {
+              // Keep ordinary internal navigation usable when storage is unavailable.
+              try { seen = new URL(document.referrer).origin === location.origin; } catch {}
+            }
+            if (!seen) {
+              document.documentElement.classList.add('welcome-pending');
+              setTimeout(() => document.documentElement.classList.remove('welcome-pending'), 8000);
+            }
           }
         </script>
 
