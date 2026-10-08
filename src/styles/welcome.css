@@ -1,0 +1,28 @@
+.welcome-entry { display: none; position: fixed; inset: 0; z-index: 80; width: 100%; height: 100%; padding: 24px; cursor: pointer; color: #66394e; background: transparent; text-align: center; -webkit-tap-highlight-color: transparent; }
+html:is(.welcome-pending,.welcome-active) { overflow: hidden; }
+html:is(.welcome-pending,.welcome-active) .welcome-entry { display: grid; place-items: center; }
+html:is(.welcome-pending,.welcome-active) :is(#top-row,#main-grid,#music-player,#motion-toggle,.back-to-top) { visibility: hidden; opacity: 0; pointer-events: none; }
+html.welcome-pending .corner-character { visibility: hidden; }
+.scene-tile { transition: filter 1.1s ease, opacity 1.1s ease; }
+html:is(.welcome-pending,.welcome-active) .scene-tile { filter: blur(22px); opacity: .42; }
+html:is(.welcome-pending,.welcome-active) .banner-video { filter: blur(9px); opacity: .45; }
+.banner-video { transition: filter 1.1s ease, opacity 1.1s ease; }
+.welcome-copy { display: flex; flex-direction: column; align-items: center; max-width: 650px; padding: 36px 24px; border-radius: 40px; background: radial-gradient(ellipse, rgb(255 247 251 / .94), rgb(255 247 251 / .65) 48%, transparent 72%); animation: welcome-copy-in 1.2s .25s both; }
+.welcome-kicker { font-size: 11px; letter-spacing: .32em; color: #a76b85; margin-bottom: 22px; }
+.welcome-title { font-size: clamp(24px, 3vw, 48px); line-height: 1.5; font-weight: 800; letter-spacing: .035em; text-shadow: 0 2px 20px #fff; }
+.welcome-title > span { display: block; font-size: 1.18em; color: #b94f80; }
+.welcome-line { width: 52px; height: 3px; border-radius: 4px; background: #d997b3; margin: 22px 0; }
+.welcome-caption { font-size: 14px; color: #865d70; letter-spacing: .12em; }
+.welcome-enter { margin-top: 36px; font-size: 13px; padding: 12px 22px; border: 1px solid #dca8bf; border-radius: 30px; background: #fff8fbbc; box-shadow: 0 5px 24px #a85e8115; }
+.welcome-enter > span { display: inline-block; margin-left: 12px; transition: transform .25s; }
+.welcome-entry:hover .welcome-enter > span { transform: translateX(5px); }
+.dark .welcome-copy { background: radial-gradient(ellipse, #30232fe8, #30232f88 48%, transparent 72%); }
+.dark .welcome-title { color: #f4deea; text-shadow: none; }
+.dark .welcome-title > span { color: #f0abcb; }
+.dark :is(.welcome-caption,.welcome-kicker) { color: #dbb3c6; }
+.dark .welcome-enter { background: #382c36d9; color: #f4deea; }
+html.welcome-leaving .welcome-entry { display: grid; place-items: center; pointer-events: auto; animation: welcome-out .65s both; }
+@keyframes welcome-copy-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes welcome-out { to { opacity: 0; } }
+@media (max-width: 767px) { .welcome-copy { padding: 24px 8px; margin-bottom: 24vh; } .welcome-kicker { font-size: 9px; letter-spacing: .18em; } .welcome-title { font-size: 27px; } .welcome-caption { font-size: 12px; letter-spacing: .04em; } .welcome-enter { margin-top: 25px; } }
+@media (prefers-reduced-motion: reduce) { .welcome-copy,.welcome-entry { animation: none !important; } }

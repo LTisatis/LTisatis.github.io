@@ -80,6 +80,13 @@ const bannerOffset =
 	  data-overlayscrollbars-initialize
 >
 	<head>
+        <script is:inline>
+          if (!window.__blogWelcomeBoot) {
+            window.__blogWelcomeBoot = true;
+            document.documentElement.classList.add('welcome-pending');
+            setTimeout(() => document.documentElement.classList.remove('welcome-pending'), 8000);
+          }
+        </script>
 
 		<title>{pageTitle}</title>
 

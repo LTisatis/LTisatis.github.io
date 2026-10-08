@@ -45,9 +45,9 @@ body.enable-banner #banner { height: 100% !important; transform: none !important
 .pink-veil { position: fixed; inset: 0; z-index: 11; pointer-events: none; background: linear-gradient(180deg, rgb(255 242 249 / .38), rgb(255 245 250 / .65)); }
 .dark .pink-veil { background: rgb(37 26 39 / .62); }
 .character-stage { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 20; }
-.corner-character { position: absolute; top: -6vh; top: -6dvh; width: auto; height: 112vh; height: 112dvh; max-width: none; max-height: none; object-fit: contain; filter: drop-shadow(0 4px 10px #61334616); }
-.yasuna { left: -24vh; }
-.sonya { right: -24vh; }
+/* Align the visible heads, independent of each sprite's transparent margins or raised hands. */
+.corner-character { --head-size: 64vh; --head-size: 64dvh; --head-edge: 2vh; --head-edge: 2dvh; --head-anchor-x: 17vw; --sprite-width: calc(var(--head-size) / var(--head-span) * 1407 / 1118); position: absolute; top: calc(var(--head-edge) - var(--head-top) * var(--head-size) / var(--head-span)); left: calc(var(--head-anchor-x) - var(--head-center) * var(--sprite-width)); width: var(--sprite-width); height: calc(var(--head-size) / var(--head-span)); max-width: none; max-height: none; object-fit: contain; filter: drop-shadow(0 4px 10px #61334616); }
+.sonya { --head-anchor-x: 83vw; }
 html:root { --card-bg: rgb(255 250 253 / .88); }
 html:root.dark { --card-bg: rgb(40 32 43 / .90); }
 .card-base, .section-intro { backdrop-filter: blur(10px); }
@@ -74,13 +74,12 @@ html:root.dark { --card-bg: rgb(40 32 43 / .90); }
 #music-status { opacity: .8; }
 .motion-toggle { position: fixed; z-index: 60; right: 12px; top: 84px; border-radius: 20px; padding: 7px 12px; font-size: 12px; background: #fff8fce8; color: #7c4660; border: 1px solid #eecbd9; }
 .footer { padding-bottom: 100px; }
-@media (max-width: 767px) { .yasuna { left: -48vh; } .sonya { right: -48vh; } .music-player { bottom: 12px; width: min(270px, calc(100vw - 100px)); } .music-title span { display: none; } .music-topline { gap: 6px; } .music-topline img { width: 30px; height: 30px; } .motion-toggle { top: 76px; } }
+@media (max-width: 767px) { .music-player { bottom: 12px; width: min(270px, calc(100vw - 100px)); } .music-title span { display: none; } .music-topline { gap: 6px; } .music-topline img { width: 30px; height: 30px; } .motion-toggle { top: 76px; } }
 .profile-card { padding: 1.5rem; }
 /* Phone composition uses viewport width, so tall screens cannot enlarge the characters. */
 @media (max-width: 767px) {
-  .corner-character { top: auto; bottom: -12px; width: 35vw; height: auto; max-height: 30svh; opacity: .8; }
-  .yasuna { left: -7vw; }
-  .sonya { right: -7vw; }
+  .corner-character { --head-size: 17vw; --head-edge: calc(100svh - 30vw); --head-anchor-x: 7vw; opacity: .8; }
+  .sonya { --head-anchor-x: 93vw; }
   html:root { --card-bg: rgb(255 250 253 / .85); }
   html:root.dark { --card-bg: rgb(40 32 43 / .85); }
   .music-player { background: rgb(255 250 253 / .97); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }

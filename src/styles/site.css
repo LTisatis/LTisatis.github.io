@@ -5,6 +5,7 @@
 @import "./scrollbar.css";
 @import "./photoswipe.css";
 @import "./personal.css";
+@import "./welcome.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
