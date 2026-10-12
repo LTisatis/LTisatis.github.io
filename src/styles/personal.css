@@ -52,6 +52,8 @@ html:root { --card-bg: rgb(255 250 253 / .88); }
 html:root.dark { --card-bg: rgb(40 32 43 / .90); }
 .card-base, .section-intro { backdrop-filter: blur(10px); }
 #toc-inner-wrapper { background: var(--card-bg); border-radius: 16px; }
+/* Keep the Swup target in the DOM, but show its panel only when it has entries. */
+#toc-inner-wrapper:not(:has(table-of-contents a)) { display: none; }
 .music-player { position: fixed; z-index: 60; bottom: 18px; left: 50%; transform: translateX(-50%); width: min(350px, calc(100vw - 28px)); padding: 10px 12px; border: 1px solid #ecc9d9; border-radius: 18px; background: #fffafdef; color: #634454; box-shadow: 0 6px 30px #9d537526; backdrop-filter: blur(12px); }
 .dark .music-player { background: #302633f5; color: #f9e3ef; border-color: #644557; }
 .music-topline { display: flex; gap: 10px; align-items: center; }
