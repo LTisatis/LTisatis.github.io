@@ -2,7 +2,6 @@
 title: 智能体如何积累经验：记忆与 Dreaming 讲座图文指南
 published: 2026-10-15
 description: Lamis Mukta 讲座完整视频与中文字幕，配合三张原视频截图，学习按需使用上下文、提炼记忆、跨会话复盘和验证更新的具体方法。
-image: /images/agent-memory-dreaming/memory-evolution.webp
 tags: [AI, 智能体, 上下文工程, 记忆, 学习笔记]
 category: 学习笔记
 draft: false
