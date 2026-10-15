@@ -15,10 +15,11 @@ const desktop = [
   { x: 53, y: 85, width: 14, rotation: 2, depth: 16 },
   { x: 63, y: 73, width: 9, rotation: 8, depth: 25 },
 ];
+const posterHeights = [850, 480, 438, 454, 270, 522];
 ---
 <div id="banner" class="personal-banner media-scene w-full h-full" aria-hidden="true">
-  <video id="ambient-video" class="banner-video" data-ambient-video data-depth="40" src="/media/banner.mp4" autoplay muted loop playsinline preload="auto" tabindex="-1"></video>
+  <video id="ambient-video" class="banner-video" data-ambient-video data-depth="40" data-src="/media/banner.mp4" poster="/media/banner-poster.webp" width="480" height="220" muted loop playsinline preload="none" tabindex="-1"></video>
   {decorations.map((item, index) => <div class={`scene-tile scene-tile-${item.id}`} data-depth={item.depth} data-desktop-depth={desktop[index].depth} style={`--tile-x:${item.x}%;--tile-y:${item.y}%;--tile-width:${item.width}vw;--tile-rotation:${item.rotation}deg;--desktop-x:${desktop[index].x}%;--desktop-y:${desktop[index].y}%;--desktop-width:${desktop[index].width}vw;--desktop-rotation:${desktop[index].rotation}deg;--compact-x:${50 + (desktop[index].x - 50) * .75}%;--compact-width:${desktop[index].width * .8}vw`}>
-    {item.id === 1 ? <img src="/media/scene/1.jpg" alt="" width="850" height="850" /> : <video data-ambient-video src={`/media/scene/${item.id}.mp4`} autoplay muted loop playsinline preload="metadata" tabindex="-1"></video>}
+    {item.id === 1 ? <img src="/media/scene/1.jpg" alt="" width="850" height="850" /> : <video data-ambient-video data-src={`/media/scene/${item.id}-web.mp4`} poster={`/media/scene/${item.id}-poster.webp`} width="480" height={posterHeights[index]} muted loop playsinline preload="none" tabindex="-1"></video>}
   </div>)}
 </div>

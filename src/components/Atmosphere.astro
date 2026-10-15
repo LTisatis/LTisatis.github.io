@@ -8,7 +8,7 @@
 </div>
 <aside id="music-player" class="music-player" aria-label="背景音乐" data-pagefind-ignore>
   <div class="music-topline">
-    <img src="/media/cover.jpg" alt="WAAAA! 音频内嵌封面" width="48" height="48" />
+    <img src="/media/cover-small.webp" alt="WAAAA! 音频内嵌封面" width="48" height="48" />
     <div class="music-title"><strong>WAAAA!</strong><span>GYARI · 鏡音リン & 鏡音レン</span></div>
     <button id="music-toggle" type="button" aria-label="播放背景音乐" aria-pressed="false" title="播放 / 暂停背景音乐">
       <svg class="play-symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5v13l10-6.5z" /></svg>
@@ -21,8 +21,7 @@
     <label>音量 <input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.35" /></label>
     <p id="music-status" role="status">点击播放，让随想有一点旋律。</p>
   </div>
-  <p id="music-autoplay-hint" class="music-autoplay-hint" role="status" hidden>点击粉色播放按钮，开启背景音乐 ♪</p>
-  <audio id="background-audio" src="/media/waaaa.mp3" preload="metadata" loop></audio>
+  <audio id="background-audio" data-src="/media/waaaa-web.m4a" preload="none" loop></audio>
 </aside>
 <button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false">暂停动效</button>
 <script src="../scripts/atmosphere.ts"></script>
