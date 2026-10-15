@@ -38,12 +38,10 @@ const className = Astro.props.class;
 
 const hasCover = image !== undefined && image !== null && image !== "";
 
-const coverWidth = "28%";
-
 const { remarkPluginFrontmatter } = await entry.render();
 ---
-<div class:list={["card-base card-tap flex flex-col-reverse md:flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative", className]} style={style}>
-    <div class:list={["pl-6 md:pl-9 pr-6 md:pr-2 pt-6 md:pt-7 pb-6 relative", {"w-full md:w-[calc(100%_-_52px_-_12px)]": !hasCover, "w-full md:w-[calc(100%_-_var(--coverWidth)_-_12px)]": hasCover}]}>
+<div class:list={["post-card card-base card-tap w-full rounded-[var(--radius-large)] overflow-hidden relative", {"post-card-with-cover": hasCover}, className]} style={style}>
+    <div class="post-card-content pl-6 md:pl-9 pr-6 pt-6 md:pt-7 pb-6 relative min-w-0">
         <a href={url}
            class="post-card-title transition group w-full block font-bold mb-3 text-90
         hover:text-[var(--primary)] dark:hover:text-[var(--primary)]
@@ -78,18 +76,9 @@ const { remarkPluginFrontmatter } = await entry.render();
     </div>
 
     {hasCover && <a href={url} aria-label={title}
-                    class:list={["group",
-                        "max-h-[20vh] md:max-h-none mx-4 mt-4 -mb-2 md:mb-0 md:mx-0 md:mt-0",
-                        "md:w-[var(--coverWidth)] relative md:absolute md:top-3 md:bottom-3 md:right-3 rounded-xl overflow-hidden active:scale-95"
-                    ]} >
-        <div class="absolute pointer-events-none z-10 w-full h-full group-hover:bg-black/30 group-active:bg-black/50 transition"></div>
-        <div class="absolute pointer-events-none z-20 w-full h-full flex items-center justify-center ">
-            <Icon name="material-symbols:chevron-right-rounded"
-                  class="transition opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 text-white text-5xl">
-            </Icon>
-        </div>
+                    class="post-card-cover rounded-xl overflow-hidden transition hover:opacity-90 active:scale-95" >
         <ImageWrapper src={image} basePath={path.join("content/posts/", getDir(entry.id))} alt={title}
-                  class="w-full h-full">
+                  class="w-full">
         </ImageWrapper>
     </a>}
 
@@ -106,5 +95,13 @@ const { remarkPluginFrontmatter } = await entry.render();
 </div>
 <div class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden"></div>
 
-<style define:vars={{coverWidth}}>
+<style>
+.post-card { display: grid; grid-template-columns: minmax(0, 1fr); }
+.post-card-cover { order: -1; align-self: center; min-width: 0; margin: 1rem 1rem 0; }
+.post-card-cover :global(img) { height: auto; max-height: 20rem; object-fit: contain; }
+@media (min-width: 768px) {
+    .post-card { grid-template-columns: minmax(0, 1fr) 4rem; }
+    .post-card-with-cover { grid-template-columns: minmax(0, 1fr) minmax(0, 34%); }
+    .post-card-cover { order: 0; margin: .75rem .75rem .75rem 0; }
+}
 </style>
