@@ -1,0 +1,11 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-10-16",
+  "jobs": [
+    {
+      "source": "public/media/sonya-hands.png",
+      "output": "assets/character-motion-v2/sonya-eye-repair-v4.png",
+      "prompt": "Edit this exact transparent character sprite in place, retain its 1407x1118 canvas, pose, placement, illustration style and colours. This is a hidden eye-occlusion repair plate for animation, not a redesign. Remove ONLY the two tiny pointed hair ends that overlap the open eyes: the thin blonde strand crossing the viewer-left upper eyelash and white of the eye, and the small yellow/black triangle touching the viewer-right upper eyelash/iris. Seamlessly complete the original upper eyelash, grey upper-eye shadow, white sclera and iris behind those tiny removed hair tips. The eyes must keep EXACT original positions, size, oval shape, purple iris colours, thin small vertical pupil, white reflection shape, asymmetrical upper lashes. Do not enlarge, round, move, or redraw the visible eyes. Remove any black hair-tip residual lines from the white eye area. All other pixels, forehead, eyebrows, hair above the eyes, mouth, face, clothing, hands and transparent background must stay as supplied. No new details."
+    }
+  ]
+}

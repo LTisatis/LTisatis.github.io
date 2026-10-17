@@ -1,0 +1,43 @@
+/* Outer character coordinates belong to welcome/parallax; only inner parts rotate. */
+.corner-character.character-puppet { filter: none; }
+.puppet-part, .puppet-arm { position: absolute; max-width: none; max-height: none; pointer-events: none; transition: none; }
+.puppet-part { display: block; user-select: none; }
+.puppet-hair-left, .puppet-hair-right { z-index: 0; }
+.puppet-body { z-index: 1; }
+.puppet-arm { z-index: 2; }
+.character-puppet { --wave-period: 18s; --wave-delay: 4s; --hand-angle: 6deg; --arm-angle: 1.2deg; }
+.character-puppet.sonya { --wave-period: 23s; --wave-delay: 11s; --hand-angle: -6deg; --arm-angle: -1.2deg; }
+.puppet-hair-left { --hair-angle: 1.5deg; --hair-time: 4.6s; --hair-delay: -1.3s; }
+.puppet-hair-right { --hair-angle: -1.8deg; --hair-time: 5.2s; --hair-delay: -3.1s; }
+.sonya .puppet-hair-left { --hair-angle: 1.7deg; --hair-time: 5.4s; }
+.sonya .puppet-hair-right { --hair-angle: -2.2deg; --hair-time: 6.2s; }
+.character-puppet[data-puppet-state]:not([data-puppet-state="static"]) :is(.puppet-hair-left,.puppet-hair-right) {
+  animation: puppet-hair var(--hair-time) ease-in-out var(--hair-delay) infinite;
+}
+.character-puppet[data-puppet-state]:not([data-puppet-state="static"]) .puppet-arm {
+  animation: puppet-arm var(--wave-period) ease-in-out var(--wave-delay) infinite;
+}
+.character-puppet[data-puppet-state]:not([data-puppet-state="static"]) .puppet-hand {
+  animation: puppet-wave var(--wave-period) ease-in-out var(--wave-delay) infinite;
+}
+.character-puppet[data-puppet-state="paused"] :is(.puppet-part,.puppet-arm) { animation-play-state: paused !important; }
+.character-puppet[data-puppet-state="static"] :is(.puppet-part,.puppet-arm) { animation: none; }
+@keyframes puppet-hair {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(var(--hair-angle)); }
+}
+/* An 18s/23s cycle spends most of its duration at rest: no timers or frame loop. */
+@keyframes puppet-wave {
+  0%, 8%, 100% { transform: rotate(0deg); }
+  2%, 6% { transform: rotate(var(--hand-angle)); }
+  4% { transform: rotate(calc(var(--hand-angle) * -.65)); }
+}
+@keyframes puppet-arm {
+  0%, 8%, 100% { transform: rotate(0deg); }
+  3% { transform: rotate(var(--arm-angle)); }
+  6% { transform: rotate(calc(var(--arm-angle) * -.35)); }
+}
+.puppet-fallback { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+@media (prefers-reduced-motion: reduce) {
+  .character-puppet :is(.puppet-part,.puppet-arm) { animation: none !important; }
+}

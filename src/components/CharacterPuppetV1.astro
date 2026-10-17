@@ -1,0 +1,31 @@
+---
+import rigs from "../data/character-rigs.json";
+import "../styles/character-motion.css";
+
+interface Props { character: "yasuna" | "sonya"; }
+const { character } = Astro.props;
+const rig = rigs[character];
+const head = character === "yasuna"
+  ? "--head-top:.063;--head-span:.448;--head-center:.562"
+  : "--head-top:.066;--head-span:.445;--head-center:.456";
+type Box = {x:number;y:number;width:number;height:number;pivot?:number[] | null};
+const canvas = {x:0,y:0,width:rig.width,height:rig.height};
+function position(part: Box, parent: Box = canvas) {
+  const pivot = part.pivot;
+  return `left:${(part.x-parent.x)/parent.width*100}%;top:${(part.y-parent.y)/parent.height*100}%;width:${part.width/parent.width*100}%;height:${part.height/parent.height*100}%;${pivot ? `transform-origin:${(pivot[0]-part.x)/part.width*100}% ${(pivot[1]-part.y)/part.height*100}%;` : ""}`;
+}
+---
+<div class:list={["corner-character", "character-puppet", character]} data-character={character}
+  data-depth={character === "yasuna" ? "65" : "85"} data-puppet-state="static"
+  data-fallback={`/media/${character}-hands.png`} style={head}>
+  {rig.parts.filter(part => !part.parent).map(part => (
+    <img class:list={["puppet-part", `puppet-${part.id}`]} style={position(part)} src={part.src}
+      width={part.width} height={part.height} alt="" draggable="false" decoding="async" />
+  ))}
+  <div class="puppet-arm" style={position(rig.arm)}>
+    {rig.parts.filter(part => part.parent === "arm").map(part => (
+      <img class:list={["puppet-part", `puppet-${part.id}`]} style={position(part,rig.arm)} src={part.src}
+        width={part.width} height={part.height} alt="" draggable="false" decoding="async" />
+    ))}
+  </div>
+</div>

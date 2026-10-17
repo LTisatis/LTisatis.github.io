@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "purpose": "Hidden forehead/temple underpainting only. Original art supplies visible hair and body.",
+  "assets": [
+    {
+      "name": "sonya",
+      "source": "public/media/sonya-hands.png",
+      "output": "assets/character-motion-v2/sonya-forehead-plate.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied full-body Sonya anime sprite. Create a reconstruction underpainting plate for animation. Preserve canvas composition, exact pose, proportions, eyes, mouth, skin color, clothes, hands and all pixels away from hair. Remove ONLY the hanging front fringe/bangs over the forehead and temples and the narrow curl in front of the visible right ear, revealing and completing the previously hidden forehead, eyebrows, temple and ear. Keep the crown, upper hair silhouette, ponytail, bow and back hair unchanged. Front hair should now stop at the forehead hairline, leaving a broad uninterrupted skin forehead above the eyes. This is a hidden underpainting; no new styling, no altered expression, no moving or resizing features. Retain the original cel shading and sharp black linework. Output the complete sprite at the same aspect ratio, transparent background, no checkerboard, no labels."
+    },
+    {
+      "name": "yasuna",
+      "source": "public/media/yasuna-hands.png",
+      "output": "assets/character-motion-v2/yasuna-forehead-plate.png",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied full-body Yasuna anime sprite. Create a reconstruction underpainting plate for animation. Preserve the exact canvas composition, pose, proportions, eyes, mouth, skin color, clothes and hands. Remove ONLY the hanging brown front fringe/bangs over the forehead and the narrow brown locks covering the temples, revealing and completing the hidden forehead, eyebrows and temple skin. Keep the crown, orange headband, upper silhouette and all outer/back hair unchanged. The front fringe should stop just below the orange headband, leaving an uninterrupted skin forehead above the eyes. Hidden animation underpainting, not a new hairstyle design: no altered expression and no moving/resizing facial features. Retain original cel shading and black linework. Output complete sprite at the same aspect ratio with transparent background, no checkerboard or labels."
+    }
+  ]
+}

@@ -1,10 +1,15 @@
+---
+import CharacterPuppet from "./CharacterPuppet.astro";
+---
 <div class="pink-veil" aria-hidden="true"></div>
 <button id="welcome-entry" class="welcome-entry" type="button" aria-label="欢迎来到LTisatis的博客，点击进入" data-pagefind-ignore>
   <span class="welcome-copy"><span class="welcome-kicker">A LITTLE CORNER OF MY WORLD</span><span class="welcome-title">欢迎来到<span>LTisatis的博客</span></span><span class="welcome-line"></span><span class="welcome-caption">心得、随想，还有喜欢的每一天。</span><span class="welcome-enter">点击任意位置进入 <span aria-hidden="true">→</span></span></span>
 </button>
-<div class="character-stage" aria-hidden="true" data-pagefind-ignore>
-  <img class="corner-character yasuna" data-depth="65" style="--head-top:0.063;--head-span:0.448;--head-center:0.562" src="/media/yasuna-hands.png" alt="" width="1407" height="1118" />
-  <img class="corner-character sonya" data-depth="85" style="--head-top:0.066;--head-span:0.445;--head-center:0.456" src="/media/sonya-hands.png" alt="" width="1407" height="1118" />
+<div class="character-stage" data-pagefind-ignore>
+  <CharacterPuppet character="yasuna" />
+  <CharacterPuppet character="sonya" />
+  <button class="character-wave-control" data-wave-character="yasuna" type="button" disabled>让安奈招手</button>
+  <button class="character-wave-control" data-wave-character="sonya" type="button" disabled>让索尼娅招手</button>
 </div>
 <aside id="music-player" class="music-player" aria-label="背景音乐" data-pagefind-ignore>
   <div class="music-topline">

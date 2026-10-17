@@ -1,0 +1,78 @@
+安奈与索尼娅：本地木偶动画实现与测试
+日期：2026-10-15（Asia/Shanghai）
+
+预览入口
+完整角色与动作检查：http://127.0.0.1:4322/__characters/
+实际博客：http://127.0.0.1:4322/
+完整角色页提供暂停、立即挥手、原图对照、浅深色底和时间滑杆，只由本地预览服务提供，不进入 dist。
+博客保留原来的头部位置与大小。因此桌面大部分抬起的手在视口之外，完整挥手请在角色检查页查看。
+当前构建为 BLOG_PREVIEW=1，未执行提交、推送或发布。
+
+实现
+每位角色 5 张透明 WebP：固定主体、两组头发、抬起的袖子、手掌与袖口。手掌嵌套在手臂组内。
+外层原有入场与鼠标视差不变；内层 CSS transform 负责局部动作。没有增加动画库或逐帧 JavaScript 循环。
+安奈发梢周期 4.6/5.2 秒，单侧转动幅度 1.5/1.8 度，挥手周期 18 秒。
+索尼娅发束周期 5.4/6.2 秒，单侧转动幅度 1.7/2.2 度，挥手周期 23 秒。
+手掌最大转动 6 度，手臂 1.2 度；两位角色首次挥手延迟分别为 4/11 秒，避免同步。
+相较最初方案采用更保守的幅度，索尼娅暂未单独拆前额发束，以减少图层并保持脸部稳定。
+肩部与袖口都留有底层重叠。脸与可见服装采用原图像素，补画仅用于移开手臂后露出的区域。
+系统减少动态：静态原始姿态。手动暂停与后台：冻结当前姿态。手机、省流量且无明确偏好：默认静止。
+正常加载不请求原 PNG；某角色任意分层图失败时，仅该角色切回原 PNG。
+
+文件与生成来源
+渲染组件：src/components/CharacterPuppet.astro
+动作样式：src/styles/character-motion.css
+控制与降级：src/scripts/character-motion.ts；接入 src/scripts/atmosphere.ts
+几何与关节清单：src/data/character-rigs.json
+网页素材：public/media/characters/（10 张 WebP）
+补画源文件：assets/character-motion/sonya-restored.png、yasuna-restored.png
+补画使用内置 image_gen.imagegen；两次完整提示词和源/输出路径保存在 assets/character-motion/provenance.json。
+素材打包脚本：scripts/build-character-rig.mjs（需现有 sharp；不依赖在线生成）
+已保留 public/media/sonya-hands.png 和 yasuna-hands.png。
+
+资源与性能
+原两张 PNG：1,872,584 字节。
+新 10 张 WebP：417,590 字节（约 418 KB），减少约 77.7%。
+按各图裁切后宽×高×4估算，解码像素约 15.22 MiB；原两张图约 12.00 MiB，增加约 3.22 MiB。
+以上是原始像素估算，不是实际 GPU 显存读数；屏幕分辨率与浏览器合成会影响显存。
+新增 CSS 源文件 gzip 765 字节、角色控制 TS 源文件 gzip 681 字节；这两项不是整个构建包的精确增量。
+
+隔离页面采样：Windows / Edge 无头浏览器，1440×900，原图、静态拆层、运行动画分别稳定 1.2 秒后采样 6 秒。
+原图：主线程 TaskDuration 约 1.13ms；静态拆层约 0.73ms；动画约 20.96ms。
+三种状态均为 0 次 Layout，0ms ScriptDuration；动画有 3 次样式重算，总计约 1.93ms。
+绘制合成层数量从 2 增至 12。没有添加 blanket will-change、translateZ 或整个人物 drop-shadow。
+这是一组本机短时样本，不能替代真机耗电、真实 GPU 或长时间帧率测试。
+完整博客有背景视频与其他既有动效；本次工作期间文章内容同时发生外部改动，因此未把整站前后采样宣称为严格性能对比。
+原始采样：.artifacts/character-motion/performance.json
+
+测试结果
+node --experimental-strip-types --test tests/*.test.mjs：15 项通过。
+node node_modules/astro/astro.js check：0 错误、0 警告、0 提示。
+node scripts/build-preview.mjs：成功构建 15 个页面。
+node scripts/verify-build.mjs --preview：195 项构建产物通过。
+git diff --check：通过。
+
+Edge 浏览器验证通过：
+- 桌面加载 10 张分层图、8 个 CSS 动画，不额外下载原 PNG。
+- 暂停冻结姿态，刷新记住偏好，重新开启正常。
+- 页面可见性事件暂停/恢复（自动测试通过模拟 document.hidden 验证）。
+- 动态切换 prefers-reduced-motion 会移除/恢复动画。
+- Swup 跳转保留原角色 DOM，动画数不增加。
+- 768px 和 390px 默认静止，手动开启正常，无整页横向溢出。
+- 禁用 JavaScript 时静态拼合正常。
+- 阻断单张手部素材请求后，该角色回退原图成功。
+- Save-Data 默认静止。
+- 首次欢迎入场与退出正常。
+- 浏览器未捕获未处理脚本异常。
+
+视觉检查：完整角色静止、挥手中间姿态、深色底；博客 1280×720、1920×1080、768×844、390×844。
+截图与浏览器记录位于 .artifacts/character-motion/。手机使用视口模拟，未作真机耗电验证。
+
+重新启动本地预览
+在项目目录运行：node scripts/preview-character-motion.mjs
+修改网站组件后先运行：node scripts/build-preview.mjs
+调整拆层坐标后先运行：node scripts/build-character-rig.mjs，再构建预览。
+本地服务仅监听 127.0.0.1:4322；关闭服务后链接失效，重新运行即可恢复。
+
+工作区说明
+本次未修改工作期间出现的文章内容变更，也未清理原有未跟踪文件。

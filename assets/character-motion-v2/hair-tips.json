@@ -1,0 +1,35 @@
+{
+  "sonya": [
+    {"id":"crown-left","root":[485,108],"tip":[423,33],"width":44},
+    {"id":"upper-left","root":[460,152],"tip":[330,187],"width":42},
+    {"id":"outer-left-high","root":[390,250],"tip":[306,371],"width":37},
+    {"id":"outer-left-low","root":[371,333],"tip":[357,461],"width":37},
+    {"id":"left-taper","root":[420,375],"tip":[438,478],"width":32},
+    {"id":"left-fine","root":[441,401],"tip":[457,475],"width":24},
+    {"id":"back-left","root":[478,490],"tip":[490,575],"width":29,"sharedStrand":"hair-left"},
+    {"id":"back-right","root":[835,440],"tip":[786,498],"width":32},
+    {"id":"bang-left","root":[512,218],"tip":[507,391],"width":35,"foreground":true,"path":"M 496 211 L 534 211 C 537 253 514 326 509 394 C 491 367 481 286 496 211 Z"},
+    {"id":"bang-center","root":[560,219],"tip":[648,407],"width":90,"foreground":true,"path":"M 526 211 L 606 211 C 604 284 626 377 652 413 C 577 361 535 278 526 211 Z"},
+    {"id":"bang-right","root":[703,218],"tip":[747,312],"width":46,"foreground":true,"path":"M 625 211 L 705 211 Q 727 271 752 317 Q 692 278 625 211 Z"},
+    {"id":"temple-right","root":[780,286],"tip":[852,409],"width":48,"foreground":false,"path":"M 754 278 L 818 275 Q 839 329 854 412 Q 797 329 754 278 Z"},
+    {"id":"ear-curl","root":[809,364],"tip":[885,505],"width":53,"foreground":false,"path":"M 801 345 Q 823 363 826 392 Q 825 448 887 507 Q 772 474 794 391 Z"}
+  ],
+  "yasuna": [
+    {"id":"crown-tip","root":[749,101],"tip":[832,67],"width":34,"pinned":0.62,"amplitude":0.45,"scalpY":88},
+    {"id":"upper-right","root":[946,146],"tip":[1058,125],"width":36},
+    {"id":"ribbon-tip","root":[1034,264],"tip":[1120,301],"width":32},
+    {"id":"outer-left-high","root":[509,309],"tip":[421,357],"width":36},
+    {"id":"outer-left-low","root":[512,367],"tip":[465,416],"width":31},
+    {"id":"outer-right-high","root":[1033,335],"tip":[1092,430],"width":34},
+    {"id":"outer-right-middle","root":[1001,434],"tip":[1076,526],"width":43},
+    {"id":"outer-right-low","root":[965,470],"tip":[1018,549],"width":38},
+    {"id":"nape-right","root":[919,508],"tip":[957,585],"width":32},
+    {"id":"nape-center","root":[874,540],"tip":[868,601],"width":27},
+    {"id":"nape-left","root":[828,551],"tip":[805,585],"width":23},
+    {"id":"nape-fine","root":[793,551],"tip":[767,581],"width":20},
+    {"id":"bang-center","root":[766,199],"tip":[835,315],"width":55,"foreground":true,"path":"M 735 192 L 799 192 Q 802 265 835 317 Q 768 271 735 192 Z"},
+    {"id":"bang-right","root":[877,232],"tip":[912,317],"width":43,"foreground":true,"path":"M 850 215 L 909 224 Q 922 280 913 319 Q 890 266 850 215 Z"},
+    {"id":"bang-left","root":[673,259],"tip":[672,330],"width":23,"foreground":false,"path":"M 662 250 L 688 251 Q 675 288 674 330 L 660 342 Z"},
+    {"id":"temple-left","root":[610,333],"tip":[672,445],"width":46,"foreground":true,"path":"M 588 325 L 633 320 Q 653 369 674 447 Q 624 405 588 325 Z"}
+  ]
+}

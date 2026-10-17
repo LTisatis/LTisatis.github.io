@@ -8,6 +8,14 @@ const content = [...document.querySelectorAll<HTMLElement>("#top-row,#main-grid,
 
 function pose(character: HTMLElement, index: number) {
   const rect = character.getBoundingClientRect();
+  if(character.classList.contains('character-puppet-v2')) {
+    const style=getComputedStyle(character);
+    const scale=reducedMotion.matches ? 1 : 1.09;
+    // Enlarge around the head anchor, not the full sprite centre below the screen.
+    const x=(.5-Number(style.getPropertyValue('--head-center')))*rect.width*(scale-1);
+    const y=(.5-Number(style.getPropertyValue('--head-top')))*rect.height*(scale-1);
+    return {x,y,scale,rect};
+  }
   const mobile = innerWidth < 768;
   const style = getComputedStyle(character);
   const headSpan = Number(style.getPropertyValue("--head-span"));
@@ -86,7 +94,7 @@ if (entry && characters.length === 2 && root.classList.contains("welcome-pending
       root.classList.remove("welcome-leaving");
       entry.hidden = true;
       document.querySelector<HTMLAnchorElement>("#navbar a")?.focus({ preventScroll: true });
-    }, reducedMotion.matches ? 0 : 700);
+    }, reducedMotion.matches ? 0 : 1060);
   }
   entry.addEventListener("click", enterBlog);
   entry.addEventListener("keydown", event => {

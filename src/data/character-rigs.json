@@ -1,0 +1,162 @@
+{
+  "sonya": {
+    "width": 1407,
+    "height": 1118,
+    "arm": {
+      "x": 824,
+      "y": 30,
+      "width": 575,
+      "height": 674,
+      "pivot": [
+        852,
+        614
+      ]
+    },
+    "parts": [
+      {
+        "id": "hair-left",
+        "src": "/media/characters/sonya-hair-left.webp",
+        "x": 453,
+        "y": 452,
+        "width": 122,
+        "height": 237,
+        "pivot": [
+          484,
+          482
+        ],
+        "parent": null,
+        "bytes": 8880
+      },
+      {
+        "id": "hair-right",
+        "src": "/media/characters/sonya-hair-right.webp",
+        "x": 857,
+        "y": 124,
+        "width": 364,
+        "height": 879,
+        "pivot": [
+          880,
+          172
+        ],
+        "parent": null,
+        "bytes": 42474
+      },
+      {
+        "id": "body",
+        "src": "/media/characters/sonya-body.webp",
+        "x": 25,
+        "y": 27,
+        "width": 1356,
+        "height": 1077,
+        "pivot": null,
+        "parent": null,
+        "bytes": 147014
+      },
+      {
+        "id": "sleeve",
+        "src": "/media/characters/sonya-sleeve.webp",
+        "x": 824,
+        "y": 215,
+        "width": 431,
+        "height": 489,
+        "pivot": null,
+        "parent": "arm",
+        "bytes": 17572
+      },
+      {
+        "id": "hand",
+        "src": "/media/characters/sonya-hand.webp",
+        "x": 1147,
+        "y": 30,
+        "width": 252,
+        "height": 326,
+        "pivot": [
+          1186,
+          304
+        ],
+        "parent": "arm",
+        "bytes": 20816
+      }
+    ]
+  },
+  "yasuna": {
+    "width": 1407,
+    "height": 1118,
+    "arm": {
+      "x": 16,
+      "y": 37,
+      "width": 634,
+      "height": 732,
+      "pivot": [
+        598,
+        596
+      ]
+    },
+    "parts": [
+      {
+        "id": "hair-left",
+        "src": "/media/characters/yasuna-hair-left.webp",
+        "x": 385,
+        "y": 302,
+        "width": 276,
+        "height": 281,
+        "pivot": [
+          535,
+          355
+        ],
+        "parent": null,
+        "bytes": 15134
+      },
+      {
+        "id": "hair-right",
+        "src": "/media/characters/yasuna-hair-right.webp",
+        "x": 852,
+        "y": 319,
+        "width": 237,
+        "height": 282,
+        "pivot": [
+          982,
+          353
+        ],
+        "parent": null,
+        "bytes": 11780
+      },
+      {
+        "id": "body",
+        "src": "/media/characters/yasuna-body.webp",
+        "x": 47,
+        "y": 56,
+        "width": 1334,
+        "height": 1040,
+        "pivot": null,
+        "parent": null,
+        "bytes": 114404
+      },
+      {
+        "id": "sleeve",
+        "src": "/media/characters/yasuna-sleeve.webp",
+        "x": 159,
+        "y": 221,
+        "width": 491,
+        "height": 548,
+        "pivot": null,
+        "parent": "arm",
+        "bytes": 19014
+      },
+      {
+        "id": "hand",
+        "src": "/media/characters/yasuna-hand.webp",
+        "x": 16,
+        "y": 37,
+        "width": 272,
+        "height": 320,
+        "pivot": [
+          220,
+          309
+        ],
+        "parent": "arm",
+        "bytes": 20502
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-10-16",
+  "jobs": [
+    {
+      "source": "assets/character-motion-v2/yasuna-face-underpaint.png",
+      "output": "assets/character-motion-v2/yasuna-underpaint-no-brows-v5.png",
+      "prompt": "Precise edit of this hidden animation underpainting. Remove ONLY the two eyebrow strokes from the blank face and fill them with the immediately surrounding smooth peach skin gradient. The face must be blank above the nose: no eyebrows, no eyes, no forehead marks. Keep the nose, cheeks, mouth, hair, body, hands, pose, 1407x1118 dimensions and transparent background exactly unchanged. Do not add eyes or bangs, do not redesign or move anything. Preserve the existing face colour and shading."
+    },
+    {
+      "source": "assets/character-motion-v2/sonya-face-underpaint.png",
+      "output": "assets/character-motion-v2/sonya-underpaint-no-brows-v5.png",
+      "prompt": "Precise edit of this hidden animation underpainting. Remove ONLY the two eyebrow strokes from the blank face and fill them with the immediately surrounding smooth peach skin gradient. The face must be blank above the nose: no eyebrows, no eyes, no forehead marks. Keep the nose, cheeks, mouth, hair, body, hands, pose, 1407x1118 dimensions and transparent background exactly unchanged. Do not add eyes or bangs, do not redesign or move anything. Preserve the existing face colour and shading."
+    }
+  ]
+}

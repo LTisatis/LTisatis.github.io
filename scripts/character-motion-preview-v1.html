@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>安奈与索尼娅 · 本地动作预览</title>
+<link rel="stylesheet" href="/__characters/motion.css">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff4f8;color:#533547;font-family:system-ui,"Microsoft YaHei",sans-serif}header{padding:26px 32px 12px;max-width:1250px;margin:auto}h1{font-size:25px;margin:0 0 8px}p{font-size:14px;line-height:1.7;color:#805b70}nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}button,a{border:1px solid #e8bfd3;border-radius:22px;padding:9px 17px;background:#fff;color:#864663;font:inherit;font-size:13px;cursor:pointer;text-decoration:none}button.active{background:#ad557d;color:white}.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1400px;margin:15px auto;padding:0 20px 25px}.card{border:1px solid #ecd0dd;border-radius:24px;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,white,#fce5ef)}.label{padding:20px 24px 0;font-size:17px;font-weight:600}.stage{position:relative;width:100%;aspect-ratio:1407/1118}.character-puppet,.original{position:absolute;inset:0;width:100%;height:100%}.original{display:none;object-fit:contain}.show-original .original{display:block}.show-original .character-puppet{visibility:hidden}.dark .card{background:#29202b}.dark{background:#201a23;color:#f6ddec}.dark p{color:#cdaebe}.hint{max-width:1200px;margin:auto;padding:0 25px 24px;font-size:13px}input{accent-color:#ad557d;vertical-align:middle;width:200px}@media(max-width:700px){.pair{grid-template-columns:1fr}header{padding:20px}h1{font-size:20px}}
+</style></head><body>
+<header><h1>安奈与索尼娅 · 本地动作预览</h1><p>头发轻摆，偶尔挥手。这里把角色完整展示，方便检查发根、袖口和动作；博客中的位置保持原样。</p>
+<nav><button id="play" class="active">暂停动作</button><button id="wave">立即挥手</button><button id="original">对照原图</button><button id="theme">深色底</button><a href="/" target="_blank">打开博客</a><label>动作检查 <input id="scrub" type="range" min="0" max="1.8" step=".02" value="0"></label></nav></header>
+<main class="pair" id="characters"></main><p class="hint">原图对照会暂时隐藏拆层版本。拖动“动作检查”可逐帧检查挥手；点击“继续动作”恢复。此页面仅由本地预览服务提供，不进入网站构建。</p>
+<script type="module">
+const rigs=await fetch('/__characters/rigs.json').then(r=>r.json());
+function position(p,parent){return `left:${(p.x-parent.x)/parent.width*100}%;top:${(p.y-parent.y)/parent.height*100}%;width:${p.width/parent.width*100}%;height:${p.height/parent.height*100}%;${p.pivot?`transform-origin:${(p.pivot[0]-p.x)/p.width*100}% ${(p.pivot[1]-p.y)/p.height*100}%;`:''}`}
+for(const name of ['yasuna','sonya']) {
+ const r=rigs[name], canvas={x:0,y:0,width:r.width,height:r.height};
+ const part=(p,parent)=>`<img class="puppet-part puppet-${p.id}" src="${p.src}" style="${position(p,parent)}" width="${p.width}" height="${p.height}" alt="">`;
+ document.querySelector('#characters').insertAdjacentHTML('beforeend',`<section class="card"><div class="label">${name==='yasuna'?'安奈':'索尼娅'} <small>· ${Math.round(r.parts.reduce((n,p)=>n+p.bytes,0)/1024)} KB</small></div><div class="stage"><div class="character-puppet ${name}" data-puppet-state="running">${r.parts.filter(p=>!p.parent).map(p=>part(p,canvas)).join('')}<div class="puppet-arm" style="${position(r.arm,canvas)}">${r.parts.filter(p=>p.parent).map(p=>part(p,r.arm)).join('')}</div></div><img class="original" src="/media/${name}-hands.png" alt="原图"></div></section>`);
+}
+const roots=[...document.querySelectorAll('.character-puppet')], play=document.querySelector('#play');
+const animations=()=>roots.flatMap(r=>r.getAnimations({subtree:true}));
+let paused=false;
+play.onclick=()=>{paused=!paused;animations().forEach(a=>paused?a.pause():a.play());play.textContent=paused?'继续动作':'暂停动作';play.classList.toggle('active',!paused)};
+document.querySelector('#wave').onclick=()=>{animations().forEach(a=>{if(a.animationName!=='puppet-hair')a.currentTime=Number(a.effect.getTiming().delay);a.play()});paused=false;play.textContent='暂停动作';play.classList.add('active')};
+document.querySelector('#original').onclick=e=>{document.body.classList.toggle('show-original');e.target.classList.toggle('active')};
+document.querySelector('#theme').onclick=e=>{document.body.classList.toggle('dark');e.target.textContent=document.body.classList.contains('dark')?'浅色底':'深色底'};
+document.querySelector('#scrub').oninput=e=>{paused=true;play.textContent='继续动作';play.classList.remove('active');for(const a of animations()){a.pause();a.currentTime=Number(a.effect.getTiming().delay)+Number(e.target.value)*1000;}};
+document.addEventListener('visibilitychange',()=>animations().forEach(a=>document.hidden||paused?a.pause():a.play()));
+</script></body></html>

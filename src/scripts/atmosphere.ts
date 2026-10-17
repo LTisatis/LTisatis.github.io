@@ -1,5 +1,6 @@
 import confetti from "canvas-confetti";
 import { createAmbientPlayback } from "./ambient-media";
+import { createCharacterMotion } from "./character-motion";
 
 const motionButton = document.querySelector<HTMLButtonElement>("#motion-toggle");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
@@ -7,10 +8,12 @@ const pointer = matchMedia("(pointer: fine)");
 const desktopScene = matchMedia("(min-width: 1024px)");
 const videos = [...document.querySelectorAll<HTMLVideoElement>("[data-ambient-video]")];
 const layers = [...document.querySelectorAll<HTMLElement>("[data-depth]")];
+const characters = createCharacterMotion([...document.querySelectorAll<HTMLElement>("[data-character]")]);
 const read = (key: string) => { try { return localStorage.getItem(key); } catch { return null; } };
 const save = (key: string, value: string) => { try { localStorage.setItem(key, value); } catch { /* Storage can be unavailable in private contexts. */ } };
 const savedMotion = read("blog-motion-paused");
 const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+let explicitMotion = savedMotion === "true" || savedMotion === "false";
 let paused = savedMotion === "true" || (savedMotion !== "false" && (!desktopScene.matches || connection?.saveData === true));
 let frame = 0;
 let x = 0;
@@ -29,9 +32,10 @@ function animate() {
   if (Math.abs(tx-x) + Math.abs(ty-y) > 0.001) frame = requestAnimationFrame(animate);
   else frame = 0;
 }
-function target(a: number, b: number) { tx = a; ty = b; if (!frame) frame = requestAnimationFrame(animate); }
+function target(a: number, b: number) { tx = a; ty = b; characters.pointer(a,b); if (!frame) frame = requestAnimationFrame(animate); }
 function syncMotion() {
   ambient.sync();
+  characters.sync(paused, reduced.matches, document.hidden);
   if (motionButton) { motionButton.textContent = reduced.matches ? "已减少动效" : paused ? "开启动效" : "暂停动效"; motionButton.setAttribute("aria-pressed", String(stopped())); }
   if (stopped() || document.hidden) {
     cancelAnimationFrame(frame); frame=0; x=0; y=0; tx=0; ty=0;
@@ -39,10 +43,14 @@ function syncMotion() {
     confetti.reset();
   }
 }
-document.addEventListener("pointermove", e => { if (!stopped() && pointer.matches) target((e.clientX/innerWidth-0.5)*2, (e.clientY/innerHeight-0.5)*2); }, { passive: true });
-document.documentElement.addEventListener("pointerleave", () => target(0,0));
-motionButton?.addEventListener("click", () => { paused=!paused; save("blog-motion-paused",String(paused)); syncMotion(); });
+document.addEventListener("pointermove", e => { if (!stopped() && !document.hidden && pointer.matches) target((e.clientX/innerWidth-0.5)*2, (e.clientY/innerHeight-0.5)*2); }, { passive: true });
+document.documentElement.addEventListener("pointerleave", () => { if (!stopped() && !document.hidden) target(0,0); });
+motionButton?.addEventListener("click", () => { explicitMotion=true; paused=!paused; save("blog-motion-paused",String(paused)); syncMotion(); });
 reduced.addEventListener("change",syncMotion);
+desktopScene.addEventListener("change", () => {
+  if (!explicitMotion) paused = !desktopScene.matches || connection?.saveData === true;
+  syncMotion();
+});
 document.addEventListener("visibilitychange",syncMotion);
 let lastBurst=0;
 document.addEventListener("click", e => {

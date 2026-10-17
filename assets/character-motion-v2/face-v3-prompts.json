@@ -1,0 +1,30 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-10-16",
+  "jobs": [
+    {
+      "id": "sonya-open-face-v3",
+      "source": "sonya-forehead-plate.png",
+      "prompt": "Edit the attached transparent sprite in place, preserve exact 1407x1118 canvas, registration, pose, all colours and artwork. This is an animation face plate. Her forehead is already exposed with hanging bangs removed: KEEP IT THAT WAY. Clean up BOTH eyes so each is a complete unobstructed open eye: remove the stray thin diagonal HAIR contour lines that remain between upper eyelashes and iris, especially the two slanted black strokes inside the upper right eye. Preserve the proper upper and lower eyelash contour, purple iris, pupil, white reflection and eye white. Smoothly complete the iris/white under any erased stray strokes. Do not add any bangs, strands or lines across the eyes. Keep eye shape, eye position, eyebrows, nose, mouth, cheeks, remaining hair and clothing exactly as input. No other change.",
+      "output": "assets/character-motion-v2/sonya-open-face-v3.png"
+    },
+    {
+      "id": "sonya-fringe-source-v3",
+      "source": "sonya-clean.png",
+      "prompt": "Edit this transparent sprite in place, preserve exact 1407x1118 canvas, pose, positions, all hair shapes and outlines, clothing and skin colours. The eyes are already removed for animation: leave them removed. ONLY remove BOTH eyebrows completely, including any eyebrow stroke visible THROUGH the blonde hair. Where an eyebrow crossed a blonde strand, restore smooth uninterrupted yellow hair fill and its existing shading; where it was on skin, restore surrounding skin. Preserve every hair outline, all 3 forehead bangs and all side locks at exactly their current position; do not remove hair or change a strand contour. No new facial lines. This is the clean source for extracting moving hair; no eyebrow ink may be inside a hair strand.",
+      "output": "assets/character-motion-v2/sonya-fringe-source-v3.png"
+    },
+    {
+      "id": "sonya-half-face-v3",
+      "source": "sonya-open-face-v3.png",
+      "prompt": "Edit this transparent animation sprite in place. EXACT same 1407x1118 canvas, scale, registration, pose and colours. Change ONLY BOTH eyes into the half-closed phase of a natural blink: upper eyelids halfway down, visible lower portions of the same purple irises, eye whites and reflections, relaxed not angry. Keep eye locations and endpoints aligned to the original open eyes. The forehead is bare because the front bangs have been separated for animation. DO NOT restore any bangs or hair lines on the forehead, eyes or cheeks. Preserve eyebrows, nose, mouth, freckles, expression, face outline, existing back hair, hands and clothing unchanged. Output a single sprite, not a sheet.",
+      "output": "assets/character-motion-v2/sonya-half-face-v3.png"
+    },
+    {
+      "id": "sonya-closed-face-v3",
+      "source": "sonya-open-face-v3.png",
+      "prompt": "Edit this transparent animation sprite in place. EXACT same 1407x1118 canvas, scale, registration, pose and colours. Change ONLY BOTH eyes into the fully closed phase of a natural blink: draw one clean smooth dark eyelid/eyelash arc for each eye, remove ALL iris, pupil, reflection, eye white and old open-eye outline, restore matching skin above/below the closed eyelid. Keep eye locations and endpoints aligned to the original open eyes. The forehead is bare because the front bangs have been separated for animation. DO NOT restore any bangs or hair lines on the forehead, eyes or cheeks. Preserve eyebrows, nose, mouth, freckles, expression, face outline, existing back hair, hands and clothing unchanged. Output a single sprite, not a sheet.",
+      "output": "assets/character-motion-v2/sonya-closed-face-v3.png"
+    }
+  ]
+}

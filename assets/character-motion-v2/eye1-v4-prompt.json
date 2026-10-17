@@ -1,0 +1,5 @@
+{
+  "source": "assets/character-motion-v2/sonya-eye1-reference-v4.png",
+  "output": "assets/character-motion-v2/sonya-eye1-repair-v4.png",
+  "prompt": "Edit this exact 588x532 eye crop. This is an animation repair plate. Remove the yellow hair strand and its black contour that crosses the upper eyelash at top centre and extends as a yellow triangle down onto the purple iris. Remove ALL of that triangle and the pointed black tip, completely. Continue the smooth curved black upper lash across the removed hair, continue the grey shadow/white eye area beneath it, and the curved upper iris outline where it was hidden. Keep the original eye identical in size, position, shape and colours: same purple ellipse, tiny tilted vertical black pupil, white reflection, grey upper eye shadow and line thickness. The rest of the image must be unchanged. NO yellow triangle, diagonal hair stroke or disconnected ink may remain between upper lash and iris. Fill removed hair above the upper lash with the existing peach forehead colour. The tiny side hair outside the eye can stay. Do not move or redesign the eye. Same rectangular canvas, no padding."
+}

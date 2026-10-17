@@ -1,0 +1,11 @@
+---
+import '../styles/character-motion-v2.css';
+interface Props {character:'yasuna'|'sonya';}
+const {character}=Astro.props;
+const head = character === 'yasuna'
+ ? '--head-top:.063;--head-span:.448;--head-center:.562'
+ : '--head-top:.066;--head-span:.445;--head-center:.456';
+---
+<div class:list={['corner-character','character-puppet-v2',character]} data-character={character} data-puppet-state="static" style={head}>
+ <img class="puppet-original" src={`/media/characters-v2/${character}-static.webp`} width="1407" height="1118" alt="" draggable="false" decoding="async" />
+</div>

@@ -1,0 +1,7 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-10-16",
+  "source": "public/media/yasuna-hands.png",
+  "output": "assets/character-motion-v2/yasuna-no-brows-v5.png",
+  "prompt": "Precise local edit of the provided Yasuna anime character sprite, keep exact 1407x1118 canvas and transparent background. Remove ONLY the TWO long thin curved eyebrow strokes drawn ACROSS the brown forehead bangs: the long curve around source coordinates (704,205) to (782,212), and the curve around (887,250) to (935,277). Fill those two strokes seamlessly with the existing brown hair colour/shading or peach skin as appropriate. This will be a clean hair texture under a separately moving eyebrow overlay. Keep every hair silhouette, pointed bang, black hair contour, headband, face, BOTH open eyes, upper eyelids, short crease marks just above the eyes, nose, mouth, hands and body unchanged. No other retouching, no additional strokes. Preserve the original illustration's line weights, flat gradients, all positions and dimensions."
+}

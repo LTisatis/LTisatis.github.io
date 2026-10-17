@@ -1,0 +1,8 @@
+{
+  "mode": "built-in image_gen",
+  "prompt": "Edit target: the attached transparent character sprite. Produce an animation underpaint plate, exact same 1407x1118 canvas, scale, position, pose, colours, outlines and transparency. ONLY erase BOTH EYES completely: remove irises, eye whites, upper/lower eyelashes and ALL eyelid/eye outlines, fill the two eye regions with smooth continuous face skin matching the surrounding face. Keep eyebrows, nose, mouth, freckles, face contour and ears exactly as provided. Preserve the already bare forehead (no hanging bangs) and all remaining hair, uniform, hands, arms pixel-aligned with input. No new expression, no eyelid lines, no closed eyes: blank skin where eyes used to be. This is a hidden skin layer for animation, not a finished portrait.",
+  "outputs": [
+    "assets/character-motion-v2/sonya-face-underpaint.png",
+    "assets/character-motion-v2/yasuna-face-underpaint.png"
+  ]
+}

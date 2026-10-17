@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-15",
+  "tool": "Built-in image_gen.imagegen (not CLI)",
+  "purpose": "Restoration plates for occluded hair and shoulder areas. The asset packer preserves the original visible face and clothes outside the raised-arm cut, crops the rig parts, and encodes transparent WebP.",
+  "images": [
+    {
+      "input": "public/media/sonya-hands.png",
+      "output": "assets/character-motion/sonya-restored.png",
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Edit target: attached transparent anime illustration of Sonya. This is a hidden restoration plate for a 2D puppet, NOT a redesign. Keep the exact original canvas aspect ratio, framing, pose, face, eyes, colors, linework and all visible pixels wherever possible. Remove ONLY the raised arm, sleeve and open hand extending toward the UPPER RIGHT, from the right shoulder to the fingertips. Reconstruct the blonde ponytail hidden behind that arm as one smoothly continuous long hair bundle from the black bow to its existing tip. Reconstruct the small hidden shoulder/torso connection naturally. Keep the other lowered arm and hand entirely unchanged. The freed space outside the restored hair and torso must be truly transparent. Keep both long ponytails, head, clothing, tie and face in their exact original positions. No text, no outline around the canvas, no backdrop, no extra parts, no new styling. The output is one single character restoration plate, not a sprite sheet."
+    },
+    {
+      "input": "public/media/yasuna-hands.png",
+      "output": "assets/character-motion/yasuna-restored.png",
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Edit target: attached transparent anime illustration of Yasuna. This is a hidden restoration plate for a 2D puppet, NOT a redesign. Keep the exact original canvas aspect ratio, framing, pose, face, eyes, colors, linework and all visible pixels wherever possible. Remove ONLY the raised arm, sleeve and open hand extending toward the UPPER LEFT, from the left shoulder to the fingertips. Reconstruct the brown hair tips hidden behind that arm, keeping the same short spiky bob haircut, and reconstruct the small hidden shoulder/torso connection naturally. Keep the other lowered arm and hand entirely unchanged. The freed space outside the restored hair and torso must be truly transparent. Keep the head, headband, clothing, tie and face in their exact original positions. No text, no new pose, no backdrop, no extra parts, no new styling. Output one single character restoration plate, not a sprite sheet."
+    }
+  ]
+}
