@@ -1,0 +1,23 @@
+<svg class="art-diagram-narrow" aria-hidden="true" focusable="false" id="code-review-convergence-mobile" width="300" height="273" viewBox="0 0 300 273" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="300" height="273" fill="#faf9f5"/><style>#code-review-convergence-mobile text{font-family:Arial,sans-serif}#code-review-convergence-mobile .mono{font-family:Arial,sans-serif}</style>
+<text x="2" y="14" font-size="13" font-weight="500" style="fill:#141413">Pass after one review and fix round</text>
+<rect x="2" y="26" width="149.5" height="14" style="fill:#8e8c87"/>
+<text x="159.5" y="37" font-size="13" font-weight="400" style="fill:#4c4b45">65%</text>
+<rect x="2" y="46" width="179.4" height="14" style="fill:#c15f3c"/>
+<text x="189.39999999999998" y="57" font-size="13" font-weight="500" style="fill:#141413">78%</text>
+<path d="M2 76 L296 76" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#1414131c"/>
+<text x="2" y="96" font-size="13" font-weight="500" style="fill:#141413">Need five or more rounds</text>
+<rect x="2" y="108" width="20.5" height="14" style="fill:#8e8c87"/>
+<text x="30.47" y="119" font-size="13" font-weight="400" style="fill:#4c4b45">8.9%</text>
+<rect x="2" y="128" width="3.4" height="14" style="fill:#c15f3c"/>
+<text x="13.45" y="139" font-size="13" font-weight="500" style="fill:#141413">1.5%</text>
+<path d="M2 158 L296 158" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#1414131c"/>
+<text x="2" y="178" font-size="13" font-weight="500" style="fill:#141413">Mean reviews to pass</text>
+<rect x="2" y="190" width="159.5" height="14" style="fill:#8e8c87"/>
+<text x="169.5" y="201" font-size="13" font-weight="400" style="fill:#4c4b45">2.08</text>
+<rect x="2" y="210" width="101.2" height="14" style="fill:#c15f3c"/>
+<text x="111.2" y="221" font-size="13" font-weight="500" style="fill:#141413">1.32</text>
+<rect x="2" y="239" width="10" height="10" style="fill:#8e8c87"/>
+<text x="18" y="248" font-size="13" style="fill:#4c4b45">before</text>
+<rect x="2" y="259" width="10" height="10" style="fill:#c15f3c"/>
+<text x="18" y="268" font-size="13" style="fill:#4c4b45">after the convergence work</text>
+</svg>

@@ -1,0 +1,25 @@
+<svg class="art-diagram-narrow" aria-hidden="true" focusable="false" id="code-review-humans-mobile" width="300" height="287" viewBox="0 0 300 287" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="300" height="287" fill="#faf9f5"/><style>#code-review-humans-mobile text{font-family:Arial,sans-serif}#code-review-humans-mobile .mono{font-family:Arial,sans-serif}</style>
+<path d="M12 5 L12 229" fill="none" stroke-width="1" stroke-dasharray="3 4" stroke-linejoin="round" style="stroke:#65645e"/>
+<text x="32" y="26" font-size="14" font-weight="500" style="fill:#141413">Should we build it?</text>
+<text x="32" y="78" font-size="14" font-weight="500" style="fill:#141413">Risky code</text>
+<text x="32" y="118" font-size="14" font-weight="500" style="fill:#141413">Architecture</text>
+<text x="32" y="170" font-size="14" font-weight="500" style="fill:#141413">Reading the evidence</text>
+<text x="32" y="210" font-size="14" font-weight="500" style="fill:#141413">Owning the outcome</text>
+<circle cx="12" cy="5" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="12" cy="21.5" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="12" cy="45" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="12" cy="57" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="12" cy="73.5" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="12" cy="97" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="12" cy="113.5" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="12" cy="137" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="12" cy="149" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="12" cy="165.5" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="12" cy="189" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="12" cy="205.5" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="12" cy="229" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="12" cy="254.5" r="3.5" style="fill:#8e8c87"/>
+<text x="32" y="259" font-size="13" style="fill:#4c4b45">an automated check</text>
+<circle cx="12" cy="276.5" r="5" style="fill:#c15f3c"/>
+<text x="32" y="281" font-size="13" style="fill:#4c4b45">a person decides</text>
+</svg>

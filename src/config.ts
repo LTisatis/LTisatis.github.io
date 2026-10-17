@@ -39,7 +39,7 @@ export const profileConfig: ProfileConfig = {
 				{
 					name: "GitHub",
 					icon: "fa6-brands:github",
-					url: "https://github.com/" + blog.githubUsername,
+					url: `https://github.com/${blog.githubUsername}`,
 				},
 			]
 		: [],
@@ -52,3 +52,4 @@ export const licenseConfig: LicenseConfig = {
 export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	theme: "github-dark",
 };
+

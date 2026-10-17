@@ -1,0 +1,73 @@
+<svg class="art-diagram-narrow" aria-hidden="true" focusable="false" id="code-review-life-of-a-change-mobile" width="300" height="797" viewBox="2 0 300 797" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="0" width="300" height="797" fill="#faf9f5"/><style>#code-review-life-of-a-change-mobile text{font-family:Arial,sans-serif}#code-review-life-of-a-change-mobile .mono{font-family:Arial,sans-serif}</style>
+<path d="M11 34.5 L11 671.5" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#14141338"/>
+<circle cx="11" cy="34.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<circle cx="11" cy="34.5" r="6.5" fill="none" stroke-width="1" style="stroke:#65645e"/>
+<path d="M8 34.5 L10.2 36.8 L14.2 32.3" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<circle cx="11" cy="147.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<circle cx="11" cy="147.5" r="6.5" fill="none" stroke-width="1" style="stroke:#65645e"/>
+<path d="M8 147.5 L10.2 149.8 L14.2 145.3" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<circle cx="11" cy="210.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<circle cx="11" cy="210.5" r="6.5" fill="none" stroke-width="1" style="stroke:#65645e"/>
+<path d="M8 210.5 L10.2 212.8 L14.2 208.3" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<circle cx="11" cy="290.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<circle cx="11" cy="290.5" r="6.5" fill="none" stroke-width="1" style="stroke:#65645e"/>
+<path d="M8 290.5 L10.2 292.8 L14.2 288.3" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<circle cx="11" cy="353.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<polygon points="11,346.5 18,353.5 11,360.5 4,353.5" style="fill:#c15f3c"/>
+<circle cx="11" cy="449.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<circle cx="11" cy="449.5" r="6.5" fill="none" stroke-width="1" style="stroke:#65645e"/>
+<path d="M8 449.5 L10.2 451.8 L14.2 447.3" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<circle cx="11" cy="545.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<circle cx="11" cy="545.5" r="6.5" fill="none" stroke-width="1" style="stroke:#65645e"/>
+<path d="M8 545.5 L10.2 547.8 L14.2 543.3" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<circle cx="11" cy="608.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<circle cx="11" cy="608.5" r="6.5" fill="none" stroke-width="1" style="stroke:#65645e"/>
+<path d="M8 608.5 L10.2 610.8 L14.2 606.3" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<circle cx="11" cy="671.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<path d="M16.6 673.5 A6 6 0 1 1 14.4 666.5" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<path d="M11.6 664.9 L14.6 666.5 L13.6 669.7" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<text x="32" y="14" font-size="12.75" font-weight="500" letter-spacing="0.08em" class="mono" style="fill:#4c4b45">BEFORE THE PULL REQUEST</text>
+<text x="32" y="39" font-size="14" font-weight="500" style="fill:#141413">The work is verified</text>
+<text x="32" y="57" font-size="13" style="fill:#4c4b45">Claude runs the tests, build and linter; a</text>
+<text x="32" y="74" font-size="13" style="fill:#4c4b45">second agent reviews the diff in a fresh</text>
+<text x="32" y="91" font-size="13" style="fill:#4c4b45">context</text>
+<text x="32" y="127" font-size="12.75" font-weight="500" letter-spacing="0.08em" class="mono" style="fill:#4c4b45">ON EVERY PULL REQUEST</text>
+<text x="32" y="152" font-size="14" font-weight="500" style="fill:#141413">Required CI</text>
+<text x="32" y="170" font-size="13" style="fill:#4c4b45">Lint, types, tests across platforms, build</text>
+<text x="32" y="187" font-size="13" style="fill:#4c4b45">and packaging. Red blocks the merge</text>
+<text x="32" y="215" font-size="14" font-weight="500" style="fill:#141413">Claude code review</text>
+<text x="32" y="233" font-size="13" style="fill:#4c4b45">Agents hunt for bugs in parallel, verifiers</text>
+<text x="32" y="250" font-size="13" style="fill:#4c4b45">vote on each finding, survivors ranked by</text>
+<text x="32" y="267" font-size="13" style="fill:#4c4b45">severity</text>
+<text x="32" y="295" font-size="14" font-weight="500" style="fill:#141413">Security review</text>
+<text x="32" y="313" font-size="13" style="fill:#4c4b45">A separate pass. Open findings from either</text>
+<text x="32" y="330" font-size="13" style="fill:#4c4b45">review block the merge</text>
+<text x="32" y="358" font-size="14" font-weight="500" style="fill:#141413">Risk-based approval</text>
+<text x="32" y="376" font-size="13" style="fill:#4c4b45">A classifier sets the tier: no person, one, or</text>
+<text x="32" y="393" font-size="13" style="fill:#4c4b45">two. Some paths always need a person</text>
+<text x="32" y="429" font-size="12.75" font-weight="500" letter-spacing="0.08em" class="mono" style="fill:#4c4b45">MERGING</text>
+<text x="32" y="454" font-size="14" font-weight="500" style="fill:#141413">Merge queue</text>
+<text x="32" y="472" font-size="13" style="fill:#4c4b45">Checks run again on the latest main with</text>
+<text x="32" y="489" font-size="13" style="fill:#4c4b45">the change applied</text>
+<text x="32" y="525" font-size="12.75" font-weight="500" letter-spacing="0.08em" class="mono" style="fill:#4c4b45">AFTER THE MERGE</text>
+<text x="32" y="550" font-size="14" font-weight="500" style="fill:#141413">Behind a flag, used internally first</text>
+<text x="32" y="568" font-size="13" style="fill:#4c4b45">Anthropic employees run it before it</text>
+<text x="32" y="585" font-size="13" style="fill:#4c4b45">reaches everyone</text>
+<text x="32" y="613" font-size="14" font-weight="500" style="fill:#141413">Gradual release</text>
+<text x="32" y="631" font-size="13" style="fill:#4c4b45">The latest channel first; the stable channel</text>
+<text x="32" y="648" font-size="13" style="fill:#4c4b45">trails it</text>
+<text x="32" y="676" font-size="14" font-weight="500" style="fill:#141413">Watch, fix forward or roll back</text>
+<text x="32" y="694" font-size="13" style="fill:#4c4b45">The author and on-call watch; flags turn off</text>
+<text x="32" y="711" font-size="13" style="fill:#4c4b45">quickly, broken builds get reverted</text>
+<circle cx="11" cy="738.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<circle cx="11" cy="738.5" r="6.5" fill="none" stroke-width="1" style="stroke:#65645e"/>
+<path d="M8 738.5 L10.2 740.8 L14.2 736.3" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<text x="32" y="743" font-size="13" style="fill:#4c4b45">automated</text>
+<circle cx="11" cy="762.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<polygon points="11,755.5 18,762.5 11,769.5 4,762.5" style="fill:#c15f3c"/>
+<text x="32" y="767" font-size="13" style="fill:#4c4b45">a person decides, scaled by risk</text>
+<circle cx="11" cy="786.5" r="7" stroke-width="2" style="fill:#faf9f5;stroke:#faf9f5"/>
+<path d="M16.6 788.5 A6 6 0 1 1 14.4 781.5" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<path d="M11.6 779.9 L14.6 781.5 L13.6 784.7" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#3d3d3a"/>
+<text x="32" y="791" font-size="13" style="fill:#4c4b45">recovery</text>
+</svg>

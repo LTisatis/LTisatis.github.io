@@ -1,0 +1,46 @@
+<svg class="art-diagram-wide" aria-hidden="true" focusable="false" id="code-review-layers" width="651" height="369" viewBox="0 0 651 369" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="651" height="369" fill="#faf9f5"/><style>#code-review-layers text{font-family:Arial,sans-serif}#code-review-layers .mono{font-family:Arial,sans-serif}</style>
+<text x="40" y="14" font-size="13" style="fill:#4c4b45">problems in</text>
+<path d="M188 22 L188 343" fill="none" stroke-width="1" stroke-dasharray="3 3" style="stroke:#c15f3c"/>
+<path d="M78.8 22 L78.8 54" fill="none" stroke-width="1" stroke-dasharray="3 3" opacity=".55" style="stroke:#c15f3c"/>
+<path d="M297.2 22 L297.2 54" fill="none" stroke-width="1" stroke-dasharray="3 3" opacity=".55" style="stroke:#c15f3c"/>
+<path d="M110 65.5 L110 104" fill="none" stroke-width="1" stroke-dasharray="3 3" opacity=".55" style="stroke:#c15f3c"/>
+<path d="M271.2 115.5 L271.2 154" fill="none" stroke-width="1" stroke-dasharray="3 3" opacity=".55" style="stroke:#c15f3c"/>
+<path d="M136 165.5 L136 204" fill="none" stroke-width="1" stroke-dasharray="3 3" opacity=".55" style="stroke:#c15f3c"/>
+<path d="M253 215.5 L253 254" fill="none" stroke-width="1" stroke-dasharray="3 3" opacity=".55" style="stroke:#c15f3c"/>
+<path d="M99.6 265.5 L99.6 304" fill="none" stroke-width="1" stroke-dasharray="3 3" opacity=".55" style="stroke:#c15f3c"/>
+<polygon points="40,72 300,72 336,50 76,50" stroke-width="1" style="fill:#1414131c;stroke:#14141338"/>
+<ellipse cx="188" cy="61" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<ellipse cx="110" cy="61" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<text x="358" y="65.5" font-size="13" style="fill:#141413">verification</text>
+<polygon points="40,122 300,122 336,100 76,100" stroke-width="1" style="fill:#1414131c;stroke:#14141338"/>
+<ellipse cx="188" cy="111" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<ellipse cx="271.2" cy="111" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<text x="358" y="115.5" font-size="13" style="fill:#141413">required CI</text>
+<polygon points="40,172 300,172 336,150 76,150" stroke-width="1" style="fill:#1414131c;stroke:#14141338"/>
+<ellipse cx="188" cy="161" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<ellipse cx="136" cy="161" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<text x="358" y="165.5" font-size="13" style="fill:#141413">AI review</text>
+<polygon points="40,222 300,222 336,200 76,200" stroke-width="1" style="fill:#1414131c;stroke:#14141338"/>
+<ellipse cx="188" cy="211" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<ellipse cx="253" cy="211" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<text x="358" y="215.5" font-size="13" style="fill:#141413">security review</text>
+<polygon points="40,272 300,272 336,250 76,250" stroke-width="1" style="fill:#1414131c;stroke:#14141338"/>
+<ellipse cx="188" cy="261" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<ellipse cx="99.6" cy="261" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<text x="358" y="265.5" font-size="13" style="fill:#141413">human approval</text>
+<polygon points="40,322 300,322 336,300 76,300" stroke-width="1" style="fill:#1414131c;stroke:#14141338"/>
+<ellipse cx="188" cy="311" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<ellipse cx="281.6" cy="311" rx="14" ry="4.5" stroke-width="1" style="fill:#faf9f5;stroke:#14141338"/>
+<text x="358" y="315.5" font-size="13" style="fill:#141413">merge queue + flags</text>
+<path d="M188 56.5 L188 315.5" fill="none" stroke-width="1" stroke-dasharray="3 3" style="stroke:#c15f3c"/>
+<circle cx="78.8" cy="59" r="4.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="297.2" cy="59" r="4.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="110" cy="109" r="4.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="271.2" cy="159" r="4.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="136" cy="209" r="4.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="253" cy="259" r="4.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="99.6" cy="309" r="4.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<path d="M144 341 Q188 369 232 341" fill="none" stroke-width="1" style="stroke:#c15f3c"/>
+<circle cx="188" cy="351" r="5.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<text x="358" y="355.5" font-size="13" font-weight="500" style="fill:#c15f3c">fast rollback</text>
+</svg>

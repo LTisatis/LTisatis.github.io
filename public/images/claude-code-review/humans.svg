@@ -1,0 +1,29 @@
+<svg class="art-diagram-wide" aria-hidden="true" focusable="false" id="code-review-humans" width="651" height="264" viewBox="0 22 651 264" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="22" width="651" height="264" fill="#faf9f5"/><style>#code-review-humans text{font-family:Arial,sans-serif}#code-review-humans .mono{font-family:Arial,sans-serif}</style>
+<circle cx="325" cy="150" r="96" fill="none" stroke-width="1" stroke-dasharray="3 4" style="stroke:#65645e"/>
+<circle cx="373.0" cy="66.9" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="398.5" cy="88.3" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="420.6" cy="158.4" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="412.0" cy="190.6" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="349.8" cy="242.7" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="308.3" cy="244.5" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="241.9" cy="198.0" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="229.9" cy="163.4" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="253.7" cy="85.8" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="284.4" cy="63.0" r="3.5" stroke-width="2" style="fill:#8e8c87;stroke:#faf9f5"/>
+<circle cx="325" cy="54" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<text x="325" y="38" text-anchor="middle" font-size="14" font-weight="500" style="fill:#141413">Should we build it?</text>
+<circle cx="416.3" cy="120.3" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<text x="433.4" y="119.3" text-anchor="start" font-size="14" font-weight="500" style="fill:#141413">Risky code</text>
+<circle cx="381.4" cy="227.7" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<text x="392" y="246.7" text-anchor="start" font-size="14" font-weight="500" style="fill:#141413">Architecture</text>
+<circle cx="268.6" cy="227.7" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<text x="258" y="246.7" text-anchor="end" font-size="14" font-weight="500" style="fill:#141413">Reading the evidence</text>
+<circle cx="233.7" cy="120.3" r="6" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<text x="216.6" y="119.3" text-anchor="end" font-size="14" font-weight="500" style="fill:#141413">Owning the outcome</text>
+<text x="325" y="146" text-anchor="middle" font-size="13" style="fill:#4c4b45">automated checks</text>
+<text x="325" y="164" text-anchor="middle" font-size="13" style="fill:#4c4b45">run all the way around</text>
+<circle cx="207" cy="275.5" r="3.5" style="fill:#8e8c87"/>
+<text x="215" y="280" font-size="12.5" style="fill:#4c4b45">an automated check</text>
+<circle cx="345" cy="275.5" r="5" style="fill:#c15f3c"/>
+<text x="355" y="280" font-size="12.5" style="fill:#4c4b45">a person decides</text>
+</svg>

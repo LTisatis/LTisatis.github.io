@@ -1,0 +1,33 @@
+<svg class="art-diagram-wide" aria-hidden="true" focusable="false" id="code-review-incident-eval" width="651" height="196" viewBox="28 26 651 196" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="26" width="651" height="196" fill="#faf9f5"/><style>#code-review-incident-eval text{font-family:Arial,sans-serif}#code-review-incident-eval .mono{font-family:Arial,sans-serif}</style>
+<text x="54" y="44.5" font-size="14" font-weight="500" style="fill:#141413">Incident or revert</text>
+<text x="54" y="62" font-size="12.5" style="fill:#65645e">a change that broke something</text>
+<text x="271" y="44.5" font-size="14" font-weight="500" style="fill:#141413">Expert-checked case</text>
+<text x="271" y="62" font-size="12.5" style="fill:#65645e">experts confirm the bug</text>
+<text x="488" y="44.5" font-size="14" font-weight="500" style="fill:#141413">Added to the set</text>
+<text x="488" y="62" font-size="12.5" style="fill:#65645e">each incident adds a case</text>
+<text x="54" y="154.5" font-size="14" font-weight="500" style="fill:#141413">Change the reviewer</text>
+<text x="54" y="172" font-size="12.5" style="fill:#65645e">its prompts, tools or model</text>
+<text x="271" y="154.5" font-size="14" font-weight="500" style="fill:#141413">Daily eval run</text>
+<text x="271" y="172" font-size="12.5" style="fill:#65645e">scored against every case</text>
+<text x="488" y="154.5" font-size="14" font-weight="500" style="fill:#141413">Score went up?</text>
+<text x="488" y="172" font-size="12.5" style="fill:#65645e">keep it; if not, drop it</text>
+<path d="M181.3 40 L247 40" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#65645e"/>
+<path d="M243 36.5 L247 40 L243 43.5" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#65645e"/>
+<path d="M422.6 40 L464 40" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#65645e"/>
+<path d="M460 36.5 L464 40 L460 43.5" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#65645e"/>
+<path d="M474 50 L474 104 L257 104 L257 140" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#65645e"/>
+<path d="M253.5 136 L257 140 L260.5 136" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#65645e"/>
+<path d="M203.4 150 L247 150" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#65645e"/>
+<path d="M243 146.5 L247 150 L243 153.5" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#65645e"/>
+<path d="M368.9 150 L464 150" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#65645e"/>
+<path d="M460 146.5 L464 150 L460 153.5" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#65645e"/>
+<path d="M474 160 L474 214 L40 214 L40 160" fill="none" stroke-width="1" stroke-linejoin="round" style="stroke:#65645e"/>
+<path d="M36.5 164 L40 160 L43.5 164" fill="none" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" style="stroke:#65645e"/>
+<text x="257" y="207" text-anchor="middle" font-size="13" style="fill:#4c4b45">next change</text>
+<circle cx="40" cy="40" r="5.5" stroke-width="2" style="fill:#3d3d3a;stroke:#faf9f5"/>
+<circle cx="257" cy="40" r="5.5" stroke-width="2" style="fill:#3d3d3a;stroke:#faf9f5"/>
+<circle cx="474" cy="40" r="5.5" stroke-width="2" style="fill:#3d3d3a;stroke:#faf9f5"/>
+<circle cx="40" cy="150" r="5.5" stroke-width="2" style="fill:#3d3d3a;stroke:#faf9f5"/>
+<circle cx="257" cy="150" r="5.5" stroke-width="2" style="fill:#c15f3c;stroke:#faf9f5"/>
+<circle cx="474" cy="150" r="5.5" stroke-width="2" style="fill:#3d3d3a;stroke:#faf9f5"/>
+</svg>
