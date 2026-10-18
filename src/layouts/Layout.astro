@@ -91,7 +91,7 @@ const bannerOffset =
               // Keep ordinary internal navigation usable when storage is unavailable.
               try { seen = new URL(document.referrer).origin === location.origin; } catch {}
             }
-            if (!seen) {
+            if (!seen && location.pathname === '/') {
               document.documentElement.classList.add('welcome-pending');
               setTimeout(() => document.documentElement.classList.remove('welcome-pending'), 8000);
             }

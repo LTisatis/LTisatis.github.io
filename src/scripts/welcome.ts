@@ -4,7 +4,7 @@ const characters = [...document.querySelectorAll<HTMLElement>(".corner-character
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 let leaving = false;
 const animations: Animation[] = [];
-const content = [...document.querySelectorAll<HTMLElement>("#top-row,#main-grid,#music-player,#motion-toggle")];
+const content = [...document.querySelectorAll<HTMLElement>("#top-row,#main-grid,#music-player,#motion-toggle,#music-launcher")];
 
 function pose(character: HTMLElement, index: number) {
   const rect = character.getBoundingClientRect();

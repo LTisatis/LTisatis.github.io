@@ -14,6 +14,7 @@ import {
 } from "./character-animation";
 import { bendLock, hairWeight, parallaxDepth, restingArmWeight, raisedArmWeight, tipWeight, mouthDisplacement, type HairTip } from "./character-deformation";
 import { hitMesh, type AlphaMask } from "./character-hit-test";
+import { prepareCharacterAssets, type CharacterAssets } from "./character-assets";
 type Point = [number, number];
 type Part = {
 	id: string;
@@ -49,6 +50,7 @@ type Rig = {
 	tips: HairTip[];
 	hair: { id: string; pivot: number[]; y: number; height: number }[];
 };
+export type CharacterManifest = { characters: Record<string, Rig> };
 type VertexWeights = { freedom: number; arm: number; mouth: readonly [number,number]; tips: { index: number; weight: number }[] };
 type Skin = { mesh: MeshPlane; part: Part; original: Float32Array; weights: VertexWeights[] };
 const rotate = (x: number, y: number, p: number[], a: number): Point => [
@@ -63,10 +65,11 @@ export async function createRenderer(
 	anchors: HTMLElement[],
 	host: HTMLElement,
 	onFailure: (error: unknown) => void,
+	assetsTask: Promise<CharacterAssets> = prepareCharacterAssets(),
 ) {
 	const renderer = new WebGLRenderer();
 	const mobile = () => innerWidth < 1024;
-	await renderer.init({
+	const initialization = renderer.init({
 		width: innerWidth,
 		height: innerHeight,
 		resolution: mobile() ? Math.min(devicePixelRatio,1) : Math.min(2,Math.max(1.5,devicePixelRatio)),
@@ -75,6 +78,12 @@ export async function createRenderer(
 		autoDensity: true,
 		powerPreference: "low-power",
 	});
+	const prepared = await Promise.allSettled([initialization, assetsTask]);
+	if (prepared[0].status === "rejected" || prepared[1].status === "rejected") {
+		if (prepared[0].status === "fulfilled") renderer.destroy();
+		throw prepared[0].status === "rejected" ? prepared[0].reason : (prepared[1] as PromiseRejectedResult).reason;
+	}
+	const { manifest, images, timing } = prepared[1].value;
 	const canvas = renderer.canvas as HTMLCanvasElement;
 	canvas.className = "character-webgl";
 	canvas.setAttribute("aria-hidden", "true");
@@ -98,6 +107,7 @@ export async function createRenderer(
 	let desktopFps = 60;
 	let qualitySamples: number[] = [];
 	const metrics = {
+		startup: { ...timing, firstRender: 0 },
 		frames: 0,
 		updateMs: [] as number[],
 		intervalMs: [] as number[],
@@ -105,10 +115,9 @@ export async function createRenderer(
 		targetFps: mobile() ? 30 : 60,
 		qualityChanges: [] as { resolution: number; fps: number }[],
 	};
-	async function texture(src: string) {
-		const img = new Image();
-		img.src = src;
-		await img.decode();
+	function texture(src: string) {
+		const img = images.get(src);
+		if (!img) throw new Error("Missing character texture");
 		if (disposed) throw new Error("Disposed");
 		const t = Texture.from(img);
 		textures.push(t);
@@ -125,16 +134,6 @@ export async function createRenderer(
 		hitMasks.set(t,{width:probe.width,height:probe.height,alpha});
 		probe.width=probe.height=0;
 		return t;
-	}
-	let manifest: { characters: Record<string, Rig> };
-	try {
-		const response = await fetch("/media/characters-v2/rigs.json");
-		if (!response.ok) throw new Error("Character manifest failed");
-		manifest = await response.json();
-	} catch (error) {
-		stage.destroy();
-		renderer.destroy();
-		throw error;
 	}
 	const actors: {
 		root: Container;
@@ -204,14 +203,10 @@ export async function createRenderer(
 				}
 				return { mesh, part, original, weights };
 			}
-			for (const p of rig.parts) skins.push(make(p, await texture(p.src)));
+			for (const p of rig.parts) skins.push(make(p, texture(p.src)));
 			const eyes = [];
 			for (const e of rig.eyes) {
-				const ts = await Promise.all(
-					["open", "half", "closed"].map((state) =>
-						texture(e.states[state].src),
-					),
-				);
+				const ts = ["open", "half", "closed"].map(state => texture(e.states[state].src));
 				const p = {
 					...e,
 					id: "eye",
@@ -469,6 +464,7 @@ export async function createRenderer(
 			}
 		}
 		renderer.render(stage);
+		if (!metrics.startup.firstRender) metrics.startup.firstRender = performance.now();
 		metrics.frames++;
 		metrics.updateMs.push(performance.now() - start);
 		if (metrics.updateMs.length > 3600) metrics.updateMs.shift();
@@ -581,7 +577,7 @@ export async function createRenderer(
 			y = clamp(b, -1, 1);
 		},
 		seedTime(seconds: number) {
-			for(const a of actors){a.timeline.time=Math.max(0,seconds);a.timeline.reschedule();}
+			for(const a of actors) a.timeline.startAt(seconds);
 			staggerWaves(actors[0].timeline,actors[1].timeline);
 		},
 		speed(value: number) {

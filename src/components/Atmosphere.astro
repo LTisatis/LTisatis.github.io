@@ -11,7 +11,11 @@ import CharacterPuppet from "./CharacterPuppet.astro";
   <button class="character-wave-control" data-wave-character="yasuna" type="button" disabled>让安奈招手</button>
   <button class="character-wave-control" data-wave-character="sonya" type="button" disabled>让索尼娅招手</button>
 </div>
-<aside id="music-player" class="music-player" aria-label="背景音乐" data-pagefind-ignore>
+<button id="music-launcher" class="music-launcher" type="button" aria-label="打开音乐与动效设置" aria-expanded="false" aria-controls="music-player" data-pagefind-ignore>
+  <img src="/media/cover-small.webp" alt="" width="44" height="44" /><span aria-hidden="true">♫</span>
+</button>
+<aside id="music-player" class="music-player" aria-label="音乐与动效设置" data-pagefind-ignore>
+  <div class="music-mobile-heading"><strong>音乐与动效</strong><button id="music-close" type="button" aria-label="关闭音乐与动效设置">关闭</button></div>
   <div class="music-topline">
     <img src="/media/cover-small.webp" alt="WAAAA! 音频内嵌封面" width="48" height="48" />
     <div class="music-title"><strong>WAAAA!</strong><span>GYARI · 鏡音リン & 鏡音レン</span></div>
@@ -26,8 +30,9 @@ import CharacterPuppet from "./CharacterPuppet.astro";
     <label>音量 <input id="music-volume" type="range" min="0" max="1" step="0.01" value="0.35" /></label>
     <p id="music-status" role="status">点击播放，让随想有一点旋律。</p>
   </div>
+  <button id="mobile-motion-toggle" class="mobile-motion-toggle" data-motion-toggle type="button" aria-pressed="false">开启动效</button>
   <audio id="background-audio" data-src="/media/waaaa-web.m4a" preload="none" loop></audio>
 </aside>
-<button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false">暂停动效</button>
+<button id="motion-toggle" class="motion-toggle" data-motion-toggle type="button" aria-pressed="false">暂停动效</button>
 <script src="../scripts/atmosphere.ts"></script>
 <script src="../scripts/welcome.ts"></script>

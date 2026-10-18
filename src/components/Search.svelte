@@ -1,5 +1,6 @@
 <script lang="ts">
 import Icon from "@iconify/svelte";
+import { searchIcon } from "../data/navigation-icons";
 import { onMount } from "svelte";
 import type { SearchResult } from "@/global";
 
@@ -47,11 +48,11 @@ onMount(() => {
 </script>
 
 <div id="search-bar" class="hidden lg:flex items-center h-11 mr-2 rounded-lg bg-black/5 dark:bg-white/5">
- <Icon icon="material-symbols:search" class="text-xl ml-3 text-50" />
+ <Icon icon={searchIcon} class="text-xl ml-3 text-50" />
  <input aria-label="搜索文章" placeholder="搜索文章" bind:value={keyword} on:focus={open} class="w-36 pl-2 pr-3 h-full bg-transparent text-sm text-75" />
 </div>
 <button id="search-switch" aria-label="搜索文章" on:click={() => { open(); document.getElementById("mobile-search")?.focus(); }} class="btn-plain lg:!hidden rounded-lg w-11 h-11">
- <Icon icon="material-symbols:search" class="text-xl" />
+ <Icon icon={searchIcon} class="text-xl" />
 </button>
 <div id="search-panel" class="float-panel float-panel-closed search-panel absolute top-20 left-3 md:left-auto right-3 md:w-[30rem] p-3" role="search" aria-label="站内文章搜索">
  <div class="flex items-center justify-between gap-2 mb-2">

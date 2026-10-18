@@ -133,7 +133,9 @@ const pctl = (data, p) => {
 						(u) => u.endsWith("/rigs.json") || u.includes("character-renderer"),
 					),
 				);
-				await p.locator("#motion-toggle").click();
+				await p.locator("#music-launcher").click();
+				await p.locator("#mobile-motion-toggle").click();
+				await p.locator("#music-close").click();
 				await ready(p);
 				await p.waitForTimeout(1500);
 				const result = await p.evaluate(

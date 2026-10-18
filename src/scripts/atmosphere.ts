@@ -2,13 +2,17 @@ import confetti from "canvas-confetti";
 import { createAmbientPlayback } from "./ambient-media";
 import { createCharacterMotion } from "./character-motion";
 
-const motionButton = document.querySelector<HTMLButtonElement>("#motion-toggle");
+const motionButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-motion-toggle]")];
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const pointer = matchMedia("(pointer: fine)");
 const desktopScene = matchMedia("(min-width: 1024px)");
 const videos = [...document.querySelectorAll<HTMLVideoElement>("[data-ambient-video]")];
 const layers = [...document.querySelectorAll<HTMLElement>("[data-depth]")];
-const characters = createCharacterMotion([...document.querySelectorAll<HTMLElement>("[data-character]")]);
+let charactersSettled = false;
+const characters = createCharacterMotion([...document.querySelectorAll<HTMLElement>("[data-character]")], () => {
+  charactersSettled = true;
+  ambient.sync();
+});
 const read = (key: string) => { try { return localStorage.getItem(key); } catch { return null; } };
 const save = (key: string, value: string) => { try { localStorage.setItem(key, value); } catch { /* Storage can be unavailable in private contexts. */ } };
 const savedMotion = read("blog-motion-paused");
@@ -20,8 +24,10 @@ let x = 0;
 let y = 0;
 let tx = 0;
 let ty = 0;
-const stopped = () => paused || reduced.matches;
-const ambient = createAmbientPlayback(videos, () => !stopped());
+const reading = () => !desktopScene.matches && !!document.querySelector("#post-container");
+const stopped = () => paused || reduced.matches || reading();
+// Mobile reading keeps posters even when the visitor enables character motion.
+const ambient = createAmbientPlayback(videos, () => !stopped() && desktopScene.matches && charactersSettled);
 function animate() {
   x += (tx - x) * 0.045;
   y += (ty - y) * 0.045;
@@ -35,8 +41,12 @@ function animate() {
 function target(a: number, b: number) { tx = a; ty = b; characters.pointer(a,b); if (!frame) frame = requestAnimationFrame(animate); }
 function syncMotion() {
   ambient.sync();
-  characters.sync(paused, reduced.matches, document.hidden);
-  if (motionButton) { motionButton.textContent = reduced.matches ? "已减少动效" : paused ? "开启动效" : "暂停动效"; motionButton.setAttribute("aria-pressed", String(stopped())); }
+  characters.sync(paused || reading(), reduced.matches, document.hidden);
+  for (const button of motionButtons) {
+    button.textContent = reduced.matches ? "已减少动效" : reading() ? "阅读时已暂停动效" : paused ? "开启动效" : "暂停动效";
+    button.setAttribute("aria-pressed", String(stopped()));
+    button.disabled = reduced.matches || reading();
+  }
   if (stopped() || document.hidden) {
     cancelAnimationFrame(frame); frame=0; x=0; y=0; tx=0; ty=0;
     for (const layer of layers) layer.style.translate = "0px 0px";
@@ -45,7 +55,7 @@ function syncMotion() {
 }
 document.addEventListener("pointermove", e => { if (!stopped() && !document.hidden && pointer.matches) target((e.clientX/innerWidth-0.5)*2, (e.clientY/innerHeight-0.5)*2); }, { passive: true });
 document.documentElement.addEventListener("pointerleave", () => { if (!stopped() && !document.hidden) target(0,0); });
-motionButton?.addEventListener("click", () => { explicitMotion=true; paused=!paused; save("blog-motion-paused",String(paused)); syncMotion(); });
+for (const button of motionButtons) button.addEventListener("click", () => { explicitMotion=true; paused=!paused; save("blog-motion-paused",String(paused)); syncMotion(); });
 reduced.addEventListener("change",syncMotion);
 desktopScene.addEventListener("change", () => {
   if (!explicitMotion) paused = !desktopScene.matches || connection?.saveData === true;
@@ -54,7 +64,7 @@ desktopScene.addEventListener("change", () => {
 document.addEventListener("visibilitychange",syncMotion);
 let lastBurst=0;
 document.addEventListener("click", e => {
-  if (stopped() || e.detail===0 || performance.now()-lastBurst<90 || (e.target instanceof Element && e.target.closest("input,textarea,select,#motion-toggle"))) return;
+  if (stopped() || e.detail===0 || performance.now()-lastBurst<90 || (e.target instanceof Element && e.target.closest("input,textarea,select,[data-motion-toggle],#music-player,#music-launcher"))) return;
   lastBurst=performance.now();
   void confetti({ particleCount: 14, spread: 360, startVelocity: 11, gravity: 0.45, ticks: 45, scalar: 0.65, shapes: ["circle","star"], colors: ["#f5a8c3","#ffcf7b","#b8dccc","#b8a7d9"], origin: {x:e.clientX/innerWidth,y:e.clientY/innerHeight}, disableForReducedMotion: true, zIndex: 90 });
 });
@@ -68,6 +78,38 @@ const seek = document.querySelector<HTMLInputElement>("#music-seek");
 const volume = document.querySelector<HTMLInputElement>("#music-volume");
 const status = document.querySelector<HTMLElement>("#music-status");
 const time = document.querySelector<HTMLElement>("#music-time");
+const player = document.querySelector<HTMLElement>("#music-player");
+const launcher = document.querySelector<HTMLButtonElement>("#music-launcher");
+const musicClose = document.querySelector<HTMLButtonElement>("#music-close");
+function closeMusic(restoreFocus = false) {
+  player?.removeAttribute("data-mobile-open");
+  launcher?.setAttribute("aria-expanded", "false");
+  if (details) details.hidden = expand?.getAttribute("aria-expanded") !== "true";
+  if (restoreFocus) launcher?.focus();
+}
+launcher?.addEventListener("click", () => {
+  if (player?.hasAttribute("data-mobile-open")) { closeMusic(true); return; }
+  player?.setAttribute("data-mobile-open", "true");
+  launcher.setAttribute("aria-expanded", "true");
+  if (details) details.hidden = false;
+  musicClose?.focus();
+});
+musicClose?.addEventListener("click", () => closeMusic(true));
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && player?.hasAttribute("data-mobile-open")) closeMusic(true);
+});
+document.addEventListener("click", event => {
+  if (event.target instanceof Element && !event.target.closest("#music-player,#music-launcher")) closeMusic();
+});
+desktopScene.addEventListener("change", () => closeMusic());
+let navigationHooked = false;
+function setupReadingNavigation() {
+  if (navigationHooked || !window.swup?.hooks) return;
+  navigationHooked = true;
+  window.swup.hooks.on("page:view", () => { closeMusic(); syncMotion(); });
+}
+setupReadingNavigation();
+document.addEventListener("swup:enable", setupReadingNavigation);
 if (audio && toggle && expand && details && seek && volume && status && time) {
   const storedVolume=Number(read("blog-volume") ?? "0.35");
   audio.volume=Number.isFinite(storedVolume) ? Math.max(0,Math.min(1,storedVolume)) : 0.35;
@@ -84,6 +126,7 @@ if (audio && toggle && expand && details && seek && volume && status && time) {
     if (!audio || !toggle || !status) return;
     toggle.setAttribute("aria-label",audio.paused ? "播放背景音乐" : "暂停背景音乐");
     toggle.setAttribute("aria-pressed",String(!audio.paused));
+    launcher?.setAttribute("data-playing",String(!audio.paused));
     status.textContent=audio.paused ? "音乐已暂停" : "正在播放 · 单曲循环";
   }
   audio.addEventListener("play",reflect); audio.addEventListener("pause",reflect);

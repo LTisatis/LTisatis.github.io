@@ -73,6 +73,19 @@ export class CharacterTimeline {
 		this.nextWave = this.time + 18 + 10 * this.random();
 		this.doubleAt = Number.POSITIVE_INFINITY;
 	}
+	/** Used once at the static-image handoff; resume keeps its own natural schedule. */
+	startAt(seconds: number) {
+		const target = Math.max(0, seconds);
+		// Warm only the spring state, with bounded work and no hidden gesture events.
+		this.time = Math.max(0, target - 0.75);
+		while (this.time < target) {
+			const dt = Math.min(1 / 120, target - this.time);
+			this.time += dt;
+			this.stepHair(dt);
+		}
+		this.reschedule();
+		this.nextBlink = this.time + (this.longHair ? 1.3 : 0.85);
+	}
 	blink(allowDouble = true) {
 		if (this.time - this.lastBlink < 0.35) return false;
 		this.blinkStart = this.time;
@@ -98,6 +111,10 @@ export class CharacterTimeline {
 			this.blink(false);
 		} else if (this.time >= this.nextBlink) this.blink();
 		if (allowWave && this.time >= this.nextWave) this.wave();
+		this.stepHair(dt);
+		if (this.events.length > 512) this.events.splice(0, 256);
+	}
+	private stepHair(dt: number) {
 		const phase = this.longHair ? 1.8 : 0.3;
 		// Speed only the hair clock. Scale the spring and damping with it, keeping
 		// the same delayed follow-through instead of filtering away the faster wind.
@@ -116,7 +133,6 @@ export class CharacterTimeline {
 				((parent - h.angle) * stiffness - h.velocity * damping) * dt;
 			h.angle = clamp(h.angle + h.velocity * dt, -0.22, 0.22);
 		}
-		if (this.events.length > 512) this.events.splice(0, 256);
 	}
 	get pose() {
 		const t = this.time - this.waveStart;

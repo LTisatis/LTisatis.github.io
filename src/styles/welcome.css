@@ -1,7 +1,7 @@
 .welcome-entry { display: none; position: fixed; inset: 0; z-index: 80; width: 100%; height: 100%; padding: 24px; cursor: pointer; color: #66394e; background: transparent; text-align: center; -webkit-tap-highlight-color: transparent; }
 html:is(.welcome-pending,.welcome-active) { overflow: hidden; }
 html:is(.welcome-pending,.welcome-active) .welcome-entry { display: grid; place-items: center; }
-html:is(.welcome-pending,.welcome-active) :is(#top-row,#main-grid,#music-player,#motion-toggle,.back-to-top) { visibility: hidden; opacity: 0; pointer-events: none; }
+html:is(.welcome-pending,.welcome-active) :is(#top-row,#main-grid,#music-player,#motion-toggle,#music-launcher,.back-to-top) { visibility: hidden; opacity: 0; pointer-events: none; }
 html.welcome-pending .corner-character { visibility: hidden; }
 .scene-tile { transition: filter 1.1s ease, opacity 1.1s ease; }
 html:is(.welcome-pending,.welcome-active) .scene-tile { filter: blur(22px); opacity: .42; }

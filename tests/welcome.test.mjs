@@ -10,7 +10,7 @@ const welcome = ts.transpileModule(fs.readFileSync("src/scripts/welcome.ts", "ut
   compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
 }).outputText;
 
-function page(storage, referrer = "") {
+function page(storage, referrer = "", pathname = "/") {
   const classes = new Set();
   const root = { classList: {
     add: value => classes.add(value), remove: value => classes.delete(value),
@@ -20,7 +20,7 @@ function page(storage, referrer = "") {
     window: {}, document: { documentElement: root, referrer,
       querySelector: () => ({}), querySelectorAll: selector => selector === ".corner-character" ? [{}, {}] : [],
     },
-    location: { origin: "https://ltisatis.github.io" }, sessionStorage: storage,
+    location: { origin: "https://ltisatis.github.io", pathname }, sessionStorage: storage,
     setTimeout() {}, URL, matchMedia: () => ({ matches: false }),
   });
   vm.runInContext(bootstrap, context);
@@ -40,6 +40,13 @@ test("welcome appears once across full page navigation and reloads in one sessio
     assert.equal(next.classes.size, 0);
     vm.runInContext(welcome, next.context);
     assert.equal(next.classes.size, 0, "page script must respect the bootstrap gate");
+  }
+});
+
+test("a fresh external article or archive visit goes directly to its content", () => {
+  for (const pathname of ["/posts/welcome/", "/archive/", "/friends/"]) {
+    const storage = { getItem: () => null, setItem() {} };
+    assert.equal(page(storage, "https://example.com/", pathname).classes.size, 0);
   }
 });
 

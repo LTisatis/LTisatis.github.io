@@ -1,6 +1,7 @@
 import type { CharacterRenderer } from "./character-renderer";
 import { parallaxDepth } from "./character-deformation";
 import { CharacterTimeline } from "./character-animation";
+import { prepareCharacterAssets } from "./character-assets";
 export type PuppetState = "static" | "paused" | "running";
 export function puppetState(
 	paused: boolean,
@@ -10,7 +11,7 @@ export function puppetState(
 	return reduced ? "static" : paused || hidden ? "paused" : "running";
 }
 /** Small eager controller. No Pixi/model requests until motion is enabled. */
-export function createCharacterMotion(roots: HTMLElement[]) {
+export function createCharacterMotion(roots: HTMLElement[], onSettled: () => void = () => {}) {
 	let engine: CharacterRenderer | undefined;
 	let loading = false;
 	let failed = false;
@@ -19,6 +20,7 @@ export function createCharacterMotion(roots: HTMLElement[]) {
 	let reduced = false;
 	let hidden = false;
 	let wasHidden = false;
+	const request = new AbortController();
 	const host = roots[0]?.parentElement;
 	let pointerX = 0;
 	let pointerY = 0;
@@ -88,6 +90,7 @@ export function createCharacterMotion(roots: HTMLElement[]) {
 		if (canMoveOriginal() && !originalFrame) originalFrame = requestAnimationFrame(moveOriginal);
 	}
 	function fallback(error?: unknown) {
+		request.abort();
 		failed = true;
 		waveControls.forEach(b=>{if(b)b.disabled=true;});
 		stopOriginal(true);
@@ -99,6 +102,7 @@ export function createCharacterMotion(roots: HTMLElement[]) {
 			r.dataset.puppetFailed = "true";
 		});
 		if (error) console.warn("Character animation: static fallback", error);
+		onSettled();
 	}
 	function apply() {
 		if (destroyed || failed || !host) return;
@@ -115,7 +119,6 @@ export function createCharacterMotion(roots: HTMLElement[]) {
 		if (engine) {
 			if (originalUsed) {
 				engine.seedPointer(originalX, originalY);
-				engine.seedTime(originalTime);
 				stopOriginal(true);
 			}
 			host.dataset.rendererReady = "true";
@@ -126,14 +129,19 @@ export function createCharacterMotion(roots: HTMLElement[]) {
 			} else engine.pause();
 		} else if (state === "running" && !loading) {
 			loading = true;
+			const assets = prepareCharacterAssets(request.signal);
+			// Start model downloads alongside the code import. Handle early rejection
+			// immediately; createRenderer owns cleanup after both operations settle.
+			void assets.catch(() => {});
 			void import("./character-renderer")
-				.then((m) => m.createRenderer(roots, host, fallback))
+				.then((m) => m.createRenderer(roots, host, fallback, assets))
 				.then((e) => {
 					if (destroyed || failed) {
 						e.destroy();
 						return;
 					}
 					engine = e;
+					e.seedTime(originalTime);
 					e.pointer(pointerX, pointerY);
 					loading = false;
 					// Inspection handle exists only on a loopback preview, never on the hosted blog.
@@ -143,6 +151,7 @@ export function createCharacterMotion(roots: HTMLElement[]) {
 							configurable: true,
 						});
 					apply();
+					onSettled();
 				})
 				.catch(fallback);
 		}
@@ -170,6 +179,7 @@ export function createCharacterMotion(roots: HTMLElement[]) {
 		},
 		destroy() {
 			destroyed = true;
+			request.abort();
 			document.removeEventListener('click',clickCharacter);
 			waveControls.forEach(b=>{if(b)b.disabled=true;});
 			stopOriginal(true);

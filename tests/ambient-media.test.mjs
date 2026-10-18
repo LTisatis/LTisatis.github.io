@@ -79,3 +79,15 @@ test("paused or hidden pages cancel pending downloads and resume only visible vi
   assert.equal(s.timers.size, 0);
   assert.equal(s.videos[1].src, undefined);
 });
+
+test("late character readiness holds decorative downloads after the load delay", () => {
+  const s = scene();
+  s.active(false); // Character preparation is still pending.
+  s.visible([[0, true], [1, true]]);
+  s.load(); s.tick();
+  assert.equal(s.timers.size, 0);
+  assert.ok(s.videos.every(video => !video.src));
+  s.active(true); // Ready or explicitly failed: the decoration gate can open.
+  s.tick();
+  assert.equal(s.videos[0].src, "/video-1.mp4");
+});

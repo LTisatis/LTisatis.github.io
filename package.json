@@ -20,6 +20,8 @@
     "assets:characters:v2": "node scripts/build-character-rig-v2.mjs",
     "build:characters": "node scripts/build-character-preview.mjs",
     "measure:characters": "node scripts/measure-character-budget.mjs",
+    "measure:startup": "node scripts/measure-startup.cjs",
+    "test:startup-mobile": "node scripts/test-startup-mobile.cjs",
     "test:characters:browser": "node scripts/test-character-browser.cjs",
     "preview:characters": "node scripts/preview-character-motion.mjs",
     "verify:build": "node scripts/verify-build.mjs",
