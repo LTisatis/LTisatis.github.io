@@ -34,15 +34,26 @@ export const profileConfig: ProfileConfig = {
 	avatar: "/media/avatar.png",
 	name: blog.author,
 	bio: blog.bio,
-	links: blog.githubUsername
-		? [
-				{
-					name: "GitHub",
-					icon: "fa6-brands:github",
-					url: `https://github.com/${blog.githubUsername}`,
-				},
-			]
-		: [],
+	links: [
+		...(blog.githubUsername
+			? [
+					{
+						name: "GitHub",
+						icon: "fa6-brands:github",
+						url: `https://github.com/${blog.githubUsername}`,
+					},
+				]
+			: []),
+		...(blog.bilibiliUid
+			? [
+					{
+						name: "B站",
+						icon: "fa6-brands:bilibili",
+						url: `https://space.bilibili.com/${blog.bilibiliUid}`,
+					},
+				]
+			: []),
+	],
 };
 export const licenseConfig: LicenseConfig = {
 	enable: false,
@@ -52,4 +63,3 @@ export const licenseConfig: LicenseConfig = {
 export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	theme: "github-dark",
 };
-
