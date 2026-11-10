@@ -1,11 +1,28 @@
-import { BlurFilter, Container, Graphics } from "pixi.js";
+import { Container, Graphics } from "pixi.js";
 
-type TrailPoint = { x: number; y: number; time: number; start: boolean };
+type TrailPoint = { x: number; y: number; time: number };
+type StarParticle = TrailPoint & {
+	lifetime: number;
+	vx: number;
+	vy: number;
+	size: number;
+	rotation: number;
+	spin: number;
+	phase: number;
+	color: number;
+};
 type Burst = { x: number; y: number; time: number; radius: number };
-const TRAIL_LIFETIME = 560;
 const BURST_LIFETIME = 1450;
-const MAX_POINTS = 48;
+const STAR_SPACING = 14;
+const MAX_POINTS = 72;
 const MAX_BURSTS = 3;
+const STAR_COLORS = [0xf7a8ca, 0xc7b1f3, 0x8ecdeb, 0x9bdbc4, 0xf5d587, 0xf3b68f];
+
+// Stable variation keeps a path colorful without sampling randomness every frame.
+function variation(seed: number) {
+	const value = Math.sin(seed * 127.1) * 43758.5453;
+	return value - Math.floor(value);
+}
 
 /** Decorative geometry only: effects never distort character meshes or HTML. */
 export function createSceneEffects() {
@@ -13,12 +30,11 @@ export function createSceneEffects() {
 	const front = new Container();
 	const trail = front.addChild(new Graphics());
 	const rings = back.addChild(new Graphics());
-	const softness = new BlurFilter({ strength: 6, quality: 3, resolution: 1 });
-	softness.enabled = false;
-	trail.filters = [softness];
-	const points: TrailPoint[] = [];
+	const particles: StarParticle[] = [];
 	const bursts: Burst[] = [];
-	let detached = true;
+	let previous: TrailPoint | null = null;
+	let carriedDistance = 0;
+	let sequence = 0;
 	let lastBurst = Number.NEGATIVE_INFINITY;
 	let trailPainted = false;
 	let ringsPainted = false;
@@ -32,39 +48,59 @@ export function createSceneEffects() {
 		lastBurstAt: null as number | null,
 	};
 	function clear() {
-		points.length = bursts.length = 0;
-		detached = true;
+		particles.length = bursts.length = 0;
+		previous = null;
+		carriedDistance = 0;
 		if (trailPainted) trail.clear();
 		if (ringsPainted) rings.clear();
 		trailPainted = ringsPainted = false;
-		softness.enabled = false;
 		metrics.trailPoints = metrics.activeBursts = 0;
 	}
+	function emitStar(x: number, y: number, time: number, dx = 0, dy = 0) {
+		const seed = ++sequence;
+		const scatter = variation(seed + 1);
+		const offset = (variation(seed + 2) - 0.5) * 22;
+		if (particles.length === MAX_POINTS) particles.shift();
+		particles.push({
+			x: x - dy * offset,
+			y: y + dx * offset,
+			time,
+			lifetime: 760 + variation(seed + 3) * 320,
+			vx: -dx * 12 + (scatter - 0.5) * 32,
+			vy: -dy * 8 - 14 - variation(seed + 4) * 14,
+			size: 4.5 + variation(seed + 5) * 4,
+			rotation: variation(seed + 6) * Math.PI * 2,
+			spin: (seed % 2 ? 1 : -1) * (0.8 + variation(seed + 7) * 1.6),
+			phase: variation(seed + 8) * Math.PI * 2,
+			color: STAR_COLORS[(seed - 1) % STAR_COLORS.length],
+		});
+	}
 	function draw(now: number) {
-		while (points.length && now - points[0].time > TRAIL_LIFETIME) points.shift();
+		for (let i = particles.length - 1; i >= 0; i--) {
+			if (now - particles[i].time >= particles[i].lifetime) particles.splice(i, 1);
+		}
 		while (bursts.length && now - bursts[0].time > BURST_LIFETIME) bursts.shift();
-		metrics.trailPoints = points.length;
+		metrics.trailPoints = particles.length;
 		metrics.activeBursts = bursts.length;
-		if (points.length < 2 && !bursts.length && !trailPainted && !ringsPainted) return;
-		if (points.length > 1 || trailPainted) trail.clear();
-		trailPainted = points.length > 1;
-		softness.enabled = trailPainted;
-		for (let i = 1; i < points.length; i++) {
-			const a = points[i - 1];
-			const b = points[i];
-			if (b.start) continue;
-			const life = Math.max(0, 1 - (now - a.time) / TRAIL_LIFETIME);
-			const intensity = life ** 1.35;
-			const speed = Math.min(1, Math.hypot(b.x - a.x, b.y - a.y) / 32);
-			for (const [width, alpha, color] of [
-				[54, 0.055, 0xf4c8df], [38, 0.12, 0xf9dceb], [22, 0.21, 0xfff1f6],
-			]) {
-				trail.moveTo(a.x, a.y).lineTo(b.x, b.y).stroke({
-					width: width * (0.45 + life * 0.55),
-					alpha: alpha * intensity * (0.55 + speed * 0.45),
-					color, cap: "round",
-				});
-			}
+		if (!particles.length && !bursts.length && !trailPainted && !ringsPainted) return;
+		if (particles.length || trailPainted) trail.clear();
+		trailPainted = particles.length > 0;
+		for (const particle of particles) {
+			const age = Math.max(0, now - particle.time);
+			const seconds = age / 1000;
+			const progress = age / particle.lifetime;
+			const entrance = Math.min(1, age / 55);
+			const twinkle = 0.9 + Math.sin(particle.phase + seconds * 5) * 0.1;
+			const alpha = entrance * (1 - progress) ** 1.1 * twinkle;
+			const radius = particle.size * (0.55 + entrance * 0.45) * (1 - progress * 0.55);
+			const x = particle.x + particle.vx * seconds;
+			const y = particle.y + particle.vy * seconds + 12 * seconds ** 2;
+			const rotation = particle.rotation + particle.spin * seconds;
+			// A translucent outer star gives softness without a full-canvas blur.
+			trail.star(x, y, 5, radius * 1.7, radius * 0.76, rotation)
+				.fill({ color: particle.color, alpha: alpha * 0.09 });
+			trail.star(x, y, 5, radius, radius * 0.45, rotation)
+				.fill({ color: particle.color, alpha: alpha * 0.66 });
 		}
 		if (bursts.length || ringsPainted) rings.clear();
 		ringsPainted = bursts.length > 0;
@@ -84,18 +120,28 @@ export function createSceneEffects() {
 	}
 	return {
 		back, front, metrics, clear, draw,
-		destroy() { clear(); trail.filters = []; softness.destroy(); },
-		endTrail() { detached = true; },
+		destroy() { clear(); },
+		endTrail() { previous = null; carriedDistance = 0; },
 		trailPoint(x: number, y: number, now = performance.now()) {
-			if (!Number.isFinite(x) || !Number.isFinite(y)) return;
-			const previous = points.at(-1);
-			if (previous && now - previous.time < 8) return;
-			if (previous && Math.hypot(x - previous.x, y - previous.y) < 2) return;
-			const start = detached || !previous || now - previous.time > 100 || Math.hypot(x - previous.x, y - previous.y) > 160;
-			points.push({ x, y, time: now, start });
-			if (points.length > MAX_POINTS) points.shift();
-			detached = false;
-			metrics.trailPoints = points.length;
+			if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(now)) return;
+			const distance = previous ? Math.hypot(x - previous.x, y - previous.y) : 0;
+			if (previous && (now - previous.time < 12 || distance < 2)) return;
+			if (!previous || now - previous.time > 150 || distance > 160) {
+				emitStar(x, y, now);
+				carriedDistance = 0;
+			} else {
+				const dx = (x - previous.x) / distance;
+				const dy = (y - previous.y) / distance;
+				const count = Math.floor((carriedDistance + distance) / STAR_SPACING);
+				for (let i = 0; i < count; i++) {
+					const t = (STAR_SPACING - carriedDistance + i * STAR_SPACING) / distance;
+					emitStar(previous.x + (x - previous.x) * t, previous.y + (y - previous.y) * t,
+						previous.time + (now - previous.time) * t, dx, dy);
+				}
+				carriedDistance = (carriedDistance + distance) % STAR_SPACING;
+			}
+			previous = { x, y, time: now };
+			metrics.trailPoints = particles.length;
 		},
 		burst(x: number, y: number, now = performance.now()) {
 			if (!Number.isFinite(x) || !Number.isFinite(y) || now - lastBurst < 150) return false;

@@ -21,17 +21,14 @@ class Graphics {
 	moveTo(x, y) { this.commands.push({ kind: "move", x, y }); return this; }
 	lineTo(x, y) { this.commands.push({ kind: "line", x, y }); return this; }
 	circle(x, y, radius) { this.commands.push({ kind: "circle", x, y, radius }); return this; }
+	star(x, y, points, radius, innerRadius, rotation = 0) { this.commands.push({ kind: "star", x, y, points, radius, innerRadius, rotation }); return this; }
 	stroke(style) { this.commands.push({ kind: "stroke", style }); return this; }
 	fill(style) { this.commands.push({ kind: "fill", style }); return this; }
-}
-class BlurFilter {
-	constructor(options) { this.options = options; this.enabled = true; }
-	destroy() { this.destroyed = true; }
 }
 function fixture() {
 	const context = vm.createContext({
 		exports: {},
-		require: () => ({ Container, Graphics, BlurFilter }),
+		require: () => ({ Container, Graphics }),
 		performance: { now: () => 1000 },
 		innerWidth: 1280,
 		innerHeight: 800,
@@ -117,33 +114,63 @@ test("large pink bursts share the background layer and expand well beyond the ol
 	assert.ok(rings.commands.some(command => command.kind === "fill" && command.style.alpha > 0));
 });
 
-test("trail history is bounded and disconnected paths never bridge content", () => {
-	const { effects, trail } = fixture();
-	for (let i = 0; i < 1000; i++) effects.trailPoint(i * 3, 100, i * 10);
-	assert.ok(effects.metrics.trailPoints > 1);
-	assert.ok(effects.metrics.trailPoints <= effects.metrics.maxTrailPoints);
-	const retained = effects.metrics.trailPoints;
-	effects.trailPoint(NaN, Infinity, 20_000);
-	assert.equal(effects.metrics.trailPoints, retained);
-	effects.clear();
-	effects.trailPoint(10, 20, 1000);
-	effects.endTrail();
-	effects.trailPoint(30, 40, 1020);
-	effects.draw(1100);
-	assert.equal(trail.commands.length, 0);
+test("star particles stay bounded and invalid pointer samples cannot add particles", () => {
+  const { effects, trail } = fixture();
+  for (let i = 0; i < 1000; i++) effects.trailPoint(i * 3, 100, i * 10);
+  assert.ok(effects.metrics.trailPoints > 1);
+  assert.ok(effects.metrics.trailPoints <= effects.metrics.maxTrailPoints);
+  const retained = effects.metrics.trailPoints;
+  effects.trailPoint(NaN, Infinity, 20_000);
+  effects.trailPoint(200, 200, NaN);
+  assert.equal(effects.metrics.trailPoints, retained);
+  effects.draw(10_000);
+  assert.ok(effects.metrics.trailPoints <= effects.metrics.maxTrailPoints);
+  assert.ok(trail.commands.some(command => command.kind === "star"));
 });
 
-test("soft trail filtering stops when cleared and releases resources on destruction", () => {
-	const { effects, trail } = fixture();
-	const filter = trail.filters[0];
-	assert.equal(filter.enabled, false);
-	effects.trailPoint(10, 20, 1000);
-	effects.trailPoint(30, 40, 1020);
-	effects.draw(1100);
-	assert.equal(filter.enabled, true);
-	effects.clear();
-	assert.equal(filter.enabled, false);
-	effects.destroy();
-	assert.equal(filter.destroyed, true);
-	assert.equal(trail.filters.length, 0);
+test("pointer trails draw varied five-point stars instead of a connected ribbon", () => {
+  const { effects, trail } = fixture();
+  for (let i = 0; i < 10; i++) effects.trailPoint(100 + i * 28, 200, 1000 + i * 16);
+  effects.draw(1200);
+  const stars = trail.commands.filter(command => command.kind === "star");
+  const fills = trail.commands.filter(command => command.kind === "fill");
+  assert.ok(stars.length > 0);
+  assert.ok(stars.every(star => star.points === 5 && star.radius > star.innerRadius && star.innerRadius > 0));
+  assert.ok(stars.every(star => [star.x, star.y, star.rotation, star.radius].every(Number.isFinite)));
+  assert.ok(new Set(fills.map(fill => fill.style.color)).size >= 3);
+  assert.ok(fills.every(fill => fill.style.alpha >= 0 && fill.style.alpha <= 1));
+  assert.equal(trail.commands.some(command => command.kind === "line" || command.kind === "stroke"), false);
+});
+
+test("stars drift, rotate, shrink and fade as time advances", () => {
+  const { effects, trail } = fixture();
+  effects.trailPoint(100, 200, 1000);
+  effects.draw(1100);
+  const early = trail.commands.find(command => command.kind === "star");
+  const earlyAlpha = Math.max(...trail.commands.filter(command => command.kind === "fill").map(command => command.style.alpha));
+  effects.draw(1600);
+  const late = trail.commands.find(command => command.kind === "star");
+  const lateAlpha = Math.max(...trail.commands.filter(command => command.kind === "fill").map(command => command.style.alpha));
+  assert.ok(early && late);
+  assert.ok(Math.hypot(late.x - early.x, late.y - early.y) > 1);
+  assert.ok(Math.abs(late.rotation - early.rotation) > .1);
+  assert.ok(late.radius < early.radius);
+  assert.ok(lateAlpha > 0 && lateAlpha < earlyAlpha);
+});
+
+test("ending a segment, a long gap or a large jump emits at the new point without crossing intervening content", () => {
+  for (const scenario of ["end", "gap", "jump"]) {
+    const { effects, trail } = fixture();
+    effects.trailPoint(10, 100, 1000);
+    if (scenario === "end") effects.endTrail();
+    const nextX = scenario === "jump" ? 900 : 150;
+    const nextTime = scenario === "gap" ? 1300 : 1040;
+    effects.trailPoint(nextX, 100, nextTime);
+    assert.equal(effects.metrics.trailPoints, 2, scenario);
+    effects.draw(nextTime + 55);
+    const stars = trail.commands.filter(command => command.kind === "star");
+    assert.ok(stars.length > 0, scenario);
+    assert.ok(stars.every(star => Math.abs(star.x - 10) < 25 || Math.abs(star.x - nextX) < 25), scenario);
+    assert.ok(stars.some(star => Math.abs(star.x - 10) < 25), "existing stars may finish fading after a segment ends");
+  }
 });
