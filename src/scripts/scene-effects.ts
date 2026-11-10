@@ -110,11 +110,13 @@ export function createSceneEffects() {
 				if (progress < 0 || progress >= 1) continue;
 				const eased = 1 - (1 - progress) ** 3;
 				const radius = 24 + eased * burst.radius * (ring ? 0.8 : 1);
-				const alpha = (1 - progress) ** 1.2 * (ring ? 0.68 : 1);
-				if (!ring) rings.circle(burst.x, burst.y, radius).fill({ color: 0xf18abc, alpha: alpha * 0.14 });
-				rings.circle(burst.x, burst.y, radius).stroke({ color: 0xef72b1, width: 76 * (1 - progress) + 8, alpha: alpha * 0.13 });
-				rings.circle(burst.x, burst.y, radius).stroke({ color: 0xf484bd, width: 36 * (1 - progress) + 4, alpha: alpha * 0.55 });
-				rings.circle(burst.x, burst.y, radius).stroke({ color: 0xffc5df, width: 11 * (1 - progress) + 2, alpha: alpha * 0.9 });
+				// Let the band visibly taper to zero before the last light fades.
+				const width = (ring ? 72 : 104) * (1 - progress) ** 1.6;
+				const fade = Math.max(0, (progress - 0.65) / 0.35);
+				const alpha = (1 - fade ** 2) * (ring ? 0.68 : 1);
+				rings.circle(burst.x, burst.y, radius).stroke({ color: 0xef72b1, width: width * 1.8, alpha: alpha * 0.13 });
+				rings.circle(burst.x, burst.y, radius).stroke({ color: 0xf484bd, width, alpha: alpha * 0.55 });
+				rings.circle(burst.x, burst.y, radius).stroke({ color: 0xffc5df, width: width * 0.22, alpha: alpha * 0.9 });
 			}
 		}
 	}

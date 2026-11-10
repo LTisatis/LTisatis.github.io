@@ -111,7 +111,31 @@ test("large pink bursts share the background layer and expand well beyond the ol
 	effects.draw(1700);
 	assert.equal(effects.back.children.includes(rings), true);
 	assert.ok(rings.commands.some(command => command.kind === "circle" && command.radius > 480));
-	assert.ok(rings.commands.some(command => command.kind === "fill" && command.style.alpha > 0));
+	assert.ok(rings.commands.some(command => command.kind === "stroke" && command.style.alpha > 0));
+	assert.equal(rings.commands.some(command => command.kind === "fill"), false);
+});
+
+test("expanding rings narrow continuously to a fine edge before their geometry expires", () => {
+	const { effects, rings } = fixture();
+	effects.burst(217, 400, 1000);
+	function primaryWidths(time) {
+		effects.draw(time);
+		return rings.commands.filter(command => command.kind === "stroke").slice(0, 3).map(command => command.style.width);
+	}
+	const early = primaryWidths(1030);
+	const middle = primaryWidths(1660);
+	const late = primaryWidths(2315);
+	assert.equal(early.length, 3);
+	assert.equal(middle.length, 3);
+	assert.equal(late.length, 3);
+	assert.ok(early[0] > 50, "the visible ring begins as a wide band");
+	for (let i = 0; i < early.length; i++) {
+		assert.ok(early[i] > middle[i] && middle[i] > late[i]);
+		assert.ok(late[i] >= 0 && late[i] < 2, "the edge becomes fine before disappearing");
+	}
+	effects.draw(2500);
+	assert.equal(effects.metrics.activeBursts, 0);
+	assert.equal(rings.commands.length, 0);
 });
 
 test("star particles stay bounded and invalid pointer samples cannot add particles", () => {
