@@ -42,6 +42,9 @@ function target(a: number, b: number) { tx = a; ty = b; characters.pointer(a,b);
 function syncMotion() {
   ambient.sync();
   characters.sync(paused || reading(), reduced.matches, document.hidden);
+  const motionPaused = stopped() || document.hidden;
+  document.documentElement.dataset.blogMotion = motionPaused ? "paused" : "running";
+  document.dispatchEvent(new CustomEvent("blog:motionchange", { detail: { paused: motionPaused } }));
   for (const button of motionButtons) {
     button.textContent = reduced.matches ? "已减少动效" : reading() ? "阅读时已暂停动效" : paused ? "开启动效" : "暂停动效";
     button.setAttribute("aria-pressed", String(stopped()));
@@ -53,8 +56,14 @@ function syncMotion() {
     confetti.reset();
   }
 }
-document.addEventListener("pointermove", e => { if (!stopped() && !document.hidden && pointer.matches) target((e.clientX/innerWidth-0.5)*2, (e.clientY/innerHeight-0.5)*2); }, { passive: true });
-document.documentElement.addEventListener("pointerleave", () => { if (!stopped() && !document.hidden) target(0,0); });
+document.addEventListener("pointermove", e => {
+  if (stopped() || document.hidden || !pointer.matches || e.pointerType === "touch") return;
+  target((e.clientX/innerWidth-0.5)*2, (e.clientY/innerHeight-0.5)*2);
+  const overContent = e.target instanceof Element && e.target.closest("a,button,input,textarea,select,nav,main,aside,article,.card-base,.section-intro,[role='button'],[contenteditable]");
+  if (overContent) characters.endTrail();
+  else characters.trailPoint(e.clientX,e.clientY);
+}, { passive: true });
+document.documentElement.addEventListener("pointerleave", () => { characters.endTrail(); if (!stopped() && !document.hidden) target(0,0); });
 for (const button of motionButtons) button.addEventListener("click", () => { explicitMotion=true; paused=!paused; save("blog-motion-paused",String(paused)); syncMotion(); });
 reduced.addEventListener("change",syncMotion);
 desktopScene.addEventListener("change", () => {
@@ -64,7 +73,7 @@ desktopScene.addEventListener("change", () => {
 document.addEventListener("visibilitychange",syncMotion);
 let lastBurst=0;
 document.addEventListener("click", e => {
-  if (stopped() || e.detail===0 || performance.now()-lastBurst<90 || (e.target instanceof Element && e.target.closest("input,textarea,select,[data-motion-toggle],#music-player,#music-launcher"))) return;
+  if (stopped() || characters.isCharacterClick(e) || /welcome-(pending|active|leaving)/.test(document.documentElement.className) || e.detail===0 || performance.now()-lastBurst<90 || (e.target instanceof Element && e.target.closest("input,textarea,select,[data-motion-toggle],#music-player,#music-launcher"))) return;
   lastBurst=performance.now();
   void confetti({ particleCount: 14, spread: 360, startVelocity: 11, gravity: 0.45, ticks: 45, scalar: 0.65, shapes: ["circle","star"], colors: ["#f5a8c3","#ffcf7b","#b8dccc","#b8a7d9"], origin: {x:e.clientX/innerWidth,y:e.clientY/innerHeight}, disableForReducedMotion: true, zIndex: 90 });
 });
@@ -106,7 +115,7 @@ let navigationHooked = false;
 function setupReadingNavigation() {
   if (navigationHooked || !window.swup?.hooks) return;
   navigationHooked = true;
-  window.swup.hooks.on("page:view", () => { closeMusic(); syncMotion(); });
+  window.swup.hooks.on("page:view", () => { closeMusic(); characters.clearEffects(); syncMotion(); });
 }
 setupReadingNavigation();
 document.addEventListener("swup:enable", setupReadingNavigation);

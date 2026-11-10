@@ -1,0 +1,93 @@
+.canvas-feature {
+  position: relative;
+  min-width: 0;
+  isolation: isolate;
+  --feature-x: 50%;
+  --feature-y: 50%;
+  --feature-rx: 0deg;
+  --feature-ry: 0deg;
+  transform: perspective(1100px) rotateX(var(--feature-rx)) rotateY(var(--feature-ry));
+  transform-origin: center;
+  transition: transform 280ms cubic-bezier(.2,.75,.25,1);
+}
+.canvas-feature::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-large);
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 20px #f2a2c432, inset 0 0 16px #ffdbed35;
+  background: radial-gradient(220px circle at var(--feature-x) var(--feature-y), #fff6fc48, transparent 75%);
+  transition: opacity 320ms ease, border-color 320ms ease;
+}
+.canvas-feature[data-hover]::after, .canvas-feature:focus-within::after {
+  opacity: 1;
+  border-color: #f2b3d0b8;
+}
+.canvas-feature > canvas {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-large);
+  opacity: 0;
+}
+.canvas-feature[data-canvas-mode="html"] > canvas { opacity: 1; }
+.canvas-feature .canvas-source {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  scale: none !important;
+  translate: none !important;
+}
+.canvas-feature [data-canvas-placeholder] { pointer-events: none; }
+html[data-blog-motion="paused"] .canvas-feature,
+.canvas-feature[data-motion-paused] {
+  --feature-rx: 0deg !important;
+  --feature-ry: 0deg !important;
+}
+html[data-blog-motion="paused"] .canvas-feature::after,
+.canvas-feature[data-motion-paused]::after { opacity: 0; }
+@media (max-width: 1023px), (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .canvas-feature { transform: none; transition: none; }
+  .canvas-feature::after { display: none; }
+}
+@media (max-width: 767px) {
+  /* Each card now has a wrapper, so the inner separator is always its last child. */
+  .canvas-feature:not(:last-child) > .post-card + div { border-top-width: 1px; }
+}
+/* Existing DOM panels use the same edge light as article cards. */
+[data-panel-interactive] {
+  --feature-x: 50%;
+  --feature-y: 50%;
+  transform-origin: center;
+  transition: transform 280ms cubic-bezier(.2,.75,.25,1), scale 280ms ease, translate 280ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+widget-layout[data-panel-interactive] { display: block; }
+[data-panel-interactive]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 20px #f2a2c432, inset 0 0 16px #ffdbed35;
+  background: radial-gradient(220px circle at var(--feature-x) var(--feature-y), #fff6fc48, transparent 75%);
+  transition: opacity 320ms ease, border-color 320ms ease;
+}
+[data-panel-interactive][data-panel-tilting] {
+  /* Override the completed entry animation's forwards transform only after
+     its running phase has ended, as checked by the controller. */
+  transform: var(--panel-base-transform, translate(0)) perspective(1100px) rotateX(var(--panel-rx, 0deg)) rotateY(var(--panel-ry, 0deg)) !important;
+}
+[data-panel-interactive][data-panel-hover]::after,
+[data-panel-interactive][data-panel-focus]::after {
+  opacity: 1;
+  border-color: #f2b3d0b8;
+}
+[data-panel-interactive][data-panel-paused]::after { opacity: 0; }
+@media (max-width: 1023px), (prefers-reduced-motion: reduce), (pointer: coarse) {
+  [data-panel-interactive]::after { display: none; }
+  [data-panel-interactive] { transition: none; }
+}

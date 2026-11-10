@@ -27,13 +27,19 @@ export function createCharacterMotion(roots: HTMLElement[], onSettled: () => voi
 	const originals = roots.map((r) => r.querySelector<HTMLElement>(".puppet-original"));
 	const waveControls=roots.map(r=>host?.querySelector<HTMLButtonElement>(`[data-wave-character="${r.dataset.character}"]`));
 	const canWave=()=>!!engine&&!destroyed&&!failed&&!paused&&!reduced&&!hidden;
+	const characterClicks = new WeakSet<Event>();
+	const entering = () => /welcome-(pending|active|leaving)/.test(document.documentElement.className);
 	function clickCharacter(event: MouseEvent) {
-		if(!canWave()||event.defaultPrevented||event.button!==0)return;
+		if(!canWave()||entering()||event.defaultPrevented||event.button!==0)return;
 		const target=event.target instanceof Element?event.target:null;
 		const control=target?.closest('.character-wave-control');
 		if(control){
 			const index=waveControls.indexOf(control as HTMLButtonElement);
-			if(index>=0)engine?.wave(index);
+			if(index>=0){
+				engine?.wave(index);
+				engine?.burstCharacter(index);
+				characterClicks.add(event);
+			}
 			return;
 		}
 		if(event.detail===0)return;
@@ -41,9 +47,15 @@ export function createCharacterMotion(roots: HTMLElement[], onSettled: () => voi
 		// or navigation must retain that element's own action without a greeting.
 		if(!target?.closest('#welcome-entry')&&target?.closest('a,button,input,textarea,select,nav,main,aside,article,.card-base,.section-intro,[role="button"],[contenteditable]'))return;
 		const index=engine?.hitTest(event.clientX,event.clientY) ?? -1;
-		if(index>=0)engine?.wave(index);
+		if(index>=0){
+			engine?.wave(index);
+			engine?.burstCharacter(index);
+			characterClicks.add(event);
+		}
 	}
-	document.addEventListener('click',clickCharacter);
+	// Capture runs before the general decorative click handler, independent of
+	// registration order. The original click continues to its native target.
+	document.addEventListener('click',clickCharacter,true);
 	let originalFrame = 0;
 	let originalLast = 0;
 	let originalX = 0;
@@ -164,6 +176,12 @@ export function createCharacterMotion(roots: HTMLElement[], onSettled: () => voi
 		attributeFilter: ["class"],
 	});
 	return {
+		isCharacterClick(event: Event) { return characterClicks.has(event); },
+		trailPoint(x: number, y: number) {
+			if (canWave() && !entering()) engine?.trailPoint(x, y);
+		},
+		endTrail() { engine?.endTrail(); },
+		clearEffects() { engine?.clearEffects(); },
 		sync(p: boolean, r: boolean, h: boolean) {
 			if (h) wasHidden = true;
 			paused = p;
@@ -180,7 +198,7 @@ export function createCharacterMotion(roots: HTMLElement[], onSettled: () => voi
 		destroy() {
 			destroyed = true;
 			request.abort();
-			document.removeEventListener('click',clickCharacter);
+			document.removeEventListener('click',clickCharacter,true);
 			waveControls.forEach(b=>{if(b)b.disabled=true;});
 			stopOriginal(true);
 			observer.disconnect();

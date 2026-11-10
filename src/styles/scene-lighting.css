@@ -1,0 +1,24 @@
+/* Only a transient light behind the characters; no page-wide scene treatment. */
+.scene-lighting {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint;
+}
+.scene-pulse {
+  position: absolute;
+  width: clamp(620px, 70vw, 1500px);
+  aspect-ratio: 1;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.72);
+  background: radial-gradient(circle, #f6a6cf 0%, #f6b4d6e8 24%, #f6c2df7d 48%, transparent 73%);
+}
+[data-scene-pulse-active="true"] .scene-pulse { will-change: transform, opacity; }
+@media (prefers-reduced-motion: reduce) {
+  .scene-pulse { transition: none !important; }
+}

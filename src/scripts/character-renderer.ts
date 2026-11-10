@@ -15,6 +15,7 @@ import {
 import { bendLock, hairWeight, parallaxDepth, restingArmWeight, raisedArmWeight, tipWeight, mouthDisplacement, type HairTip } from "./character-deformation";
 import { hitMesh, type AlphaMask } from "./character-hit-test";
 import { prepareCharacterAssets, type CharacterAssets } from "./character-assets";
+import { createSceneEffects } from "./scene-effects";
 type Point = [number, number];
 type Part = {
 	id: string;
@@ -88,6 +89,24 @@ export async function createRenderer(
 	canvas.className = "character-webgl";
 	canvas.setAttribute("aria-hidden", "true");
 	const stage = new Container();
+	const effects = createSceneEffects();
+	stage.addChild(effects.back);
+	const inspectScene = ["localhost", "127.0.0.1"].includes(location.hostname);
+	// Local browser QA can read DOM attributes across isolated browser worlds.
+	// Only input/lifecycle boundaries publish; the render loop never writes DOM.
+	function inspectEffects() {
+		if (!inspectScene) return;
+		const data = {
+			sceneBurstCount: String(effects.metrics.burstCount),
+			sceneActiveBursts: String(effects.metrics.activeBursts),
+			sceneTrailPoints: String(effects.metrics.trailPoints),
+			sceneLastBurst: effects.metrics.lastBurst ? JSON.stringify(effects.metrics.lastBurst) : "",
+			sceneLastBurstAt: effects.metrics.lastBurstAt === null ? "" : String(effects.metrics.lastBurstAt),
+		};
+		for (const [key, value] of Object.entries(data)) {
+			if (host.dataset[key] !== value) host.dataset[key] = value;
+		}
+	}
 	const textures: Texture[] = [];
 	const debug = new Graphics();
 	const hitMasks = new WeakMap<Texture, AlphaMask>();
@@ -107,6 +126,7 @@ export async function createRenderer(
 	let desktopFps = 60;
 	let qualitySamples: number[] = [];
 	const metrics = {
+		effects: effects.metrics,
 		startup: { ...timing, firstRender: 0 },
 		frames: 0,
 		updateMs: [] as number[],
@@ -236,11 +256,13 @@ export async function createRenderer(
 		}
 	} catch (error) {
 		textures.forEach((t) => { t.destroy(true); });
+		effects.destroy();
 		stage.destroy({ children: true });
 		renderer.destroy();
 		throw error;
 	}
 	staggerWaves(actors[0].timeline, actors[1].timeline);
+	stage.addChild(effects.front);
 	stage.addChild(debug);
 	host.appendChild(canvas);
 	function map(
@@ -463,6 +485,7 @@ export async function createRenderer(
 						.fill(0xff386c);
 			}
 		}
+		effects.draw(performance.now());
 		renderer.render(stage);
 		if (!metrics.startup.firstRender) metrics.startup.firstRender = performance.now();
 		metrics.frames++;
@@ -526,6 +549,8 @@ export async function createRenderer(
 	}
 	function resize() {
 		if (disposed) return;
+		effects.clear();
+		inspectEffects();
 		renderer.resolution = mobile()?Math.min(devicePixelRatio,1):Math.min(qualityCap,Math.max(1.5,devicePixelRatio));
 		renderer.resize(innerWidth, innerHeight);
 		metrics.resolution = renderer.resolution;
@@ -539,6 +564,10 @@ export async function createRenderer(
 		last = 0;
 		lastDraw = 0;
 		accumulator = 0;
+		const hadEffects = effects.metrics.trailPoints > 0 || effects.metrics.activeBursts > 0;
+		effects.clear();
+		inspectEffects();
+		if (hadEffects && !disposed && !renderer.context.isLost) renderer.render(stage);
 	}
 	function resume(resetTimers = false) {
 		if (disposed || running) return;
@@ -567,6 +596,42 @@ export async function createRenderer(
 		resume,
 		resize,
 		draw,
+		trailPoint(clientX: number, clientY: number) {
+			if (running && !disposed) {
+				effects.trailPoint(clientX, clientY);
+				inspectEffects();
+			}
+		},
+		endTrail() { effects.endTrail(); },
+		clearEffects() {
+			effects.clear();
+			inspectEffects();
+			if (!disposed && !renderer.context.isLost) renderer.render(stage);
+		},
+		burst(clientX: number, clientY: number) {
+			if (!running || disposed) return false;
+			const accepted = effects.burst(clientX, clientY);
+			inspectEffects();
+			return accepted;
+		},
+		burstCharacter(index: number) {
+			if (!running || disposed || !actors[index]) return false;
+			const { anchor, box } = actors[index];
+			const style = getComputedStyle(anchor);
+			const headCenter = Number(style.getPropertyValue("--head-center"));
+			const headTop = Number(style.getPropertyValue("--head-top"));
+			const headSpan = Number(style.getPropertyValue("--head-span"));
+			// The layout anchor is stable: pointer parallax, breathing, and the
+			// precise clicked pixel do not move the center behind this character.
+			const centerX = box.left + box.width * headCenter;
+			const centerY = box.top + box.height * (headTop + headSpan * 0.75);
+			const accepted = effects.burst(centerX, centerY);
+			if (accepted) document.dispatchEvent(new CustomEvent("blog:scene-burst", {
+				detail: { x: centerX, y: centerY, index, strength: 1 },
+			}));
+			inspectEffects();
+			return accepted;
+		},
 		pointer(a: number, b: number) {
 			pointerX = clamp(a, -1, 1);
 			pointerY = clamp(b, -1, 1);
@@ -638,6 +703,7 @@ export async function createRenderer(
 			window.removeEventListener("resize", resize);
 			canvas.removeEventListener("webglcontextlost", lost);
 			canvas.remove();
+			effects.destroy();
 			stage.destroy({ children: true });
 			textures.forEach((t) => { t.destroy(true); });
 			renderer.destroy();
