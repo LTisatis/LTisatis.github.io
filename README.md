@@ -52,6 +52,16 @@ draft: false
 
 公开仓库中的源码人人可见，`draft: true` 只影响网站生成；私人草稿应存放在仓库之外。配图使用有权使用的本地资源，Markdown 图片填写替代文字。关于页编辑 `src/content/spec/about.md`。
 
+## 网站流量统计
+
+Umami 的公开接入配置位于 `blog.config.json` 的 `umami` 字段。注册 Umami Cloud 后，添加域名 `ltisatis.github.io`，再从网站设置的 Tracking code 中复制 `data-website-id` 到 `websiteId`。`scriptUrl` 使用后台提供的脚本地址。Website ID 会出现在页面中，不是密码；不要把账号密码或 API 密钥放进配置。
+
+填写后重新构建并发布即可开始记录。`websiteId` 为空时不加载统计脚本。本地开发和 `BLOG_PREVIEW=1` 的预览构建不加载统计脚本；正式构建也只在正式域名上记录访问。可用 `PUBLIC_UMAMI_WEBSITE_ID` 和 `PUBLIC_UMAMI_SCRIPT_URL` 覆盖配置；GitHub Pages 默认使用已提交的配置，不依赖本机 `.env.local`。
+
+Umami 自带的页面导航跟踪负责记录 Swup 的站内跳转，不额外绑定计数，避免重复上报。当前配置不记录 URL 查询参数和锚点，并尊重浏览器的 Do Not Track 设置。后台保持私有，不启用公开分享链接、会话回放或自定义用户身份。统计数据从接入时开始积累，无法补回此前访问。
+
+参考：[接入文档](https://docs.umami.is/docs/collect-data)、[跟踪配置](https://docs.umami.is/docs/tracker-configuration)。
+
 ## 个人信息与外观
 
 - `blog.config.json`：账号、标题、副标题、昵称、简介和发布准备状态。

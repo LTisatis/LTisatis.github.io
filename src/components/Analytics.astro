@@ -1,0 +1,31 @@
+---
+import blog from "../../blog.config.json";
+
+const websiteId = (import.meta.env.PUBLIC_UMAMI_WEBSITE_ID?.trim() || blog.umami.websiteId).trim();
+const scriptUrl = (import.meta.env.PUBLIC_UMAMI_SCRIPT_URL?.trim() || blog.umami.scriptUrl).trim();
+const enabled = import.meta.env.PROD && process.env.BLOG_PREVIEW !== "1" && websiteId !== "";
+const domain = Astro.site?.hostname;
+
+if (enabled) {
+	if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(websiteId)) {
+		throw new Error("Umami websiteId must be a UUID from the website's tracking code.");
+	}
+	if (new URL(scriptUrl).protocol !== "https:") {
+		throw new Error("Umami scriptUrl must use HTTPS.");
+	}
+	if (!domain) throw new Error("Umami requires a configured production site domain.");
+}
+---
+
+{enabled && (
+	<script
+		is:inline
+		defer
+		src={scriptUrl}
+		data-website-id={websiteId}
+		data-domains={domain}
+		data-exclude-search="true"
+		data-exclude-hash="true"
+		data-do-not-track="true"
+	></script>
+)}
