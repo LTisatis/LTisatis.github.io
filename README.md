@@ -58,7 +58,7 @@ Umami 的公开接入配置位于 `blog.config.json` 的 `umami` 字段。注册
 
 填写后重新构建并发布即可开始记录。`websiteId` 为空时不加载统计脚本。本地开发和 `BLOG_PREVIEW=1` 的预览构建不加载统计脚本；正式构建也只在正式域名上记录访问。可用 `PUBLIC_UMAMI_WEBSITE_ID` 和 `PUBLIC_UMAMI_SCRIPT_URL` 覆盖配置；GitHub Pages 默认使用已提交的配置，不依赖本机 `.env.local`。
 
-Umami 自带的页面导航跟踪负责记录 Swup 的站内跳转，不额外绑定计数，避免重复上报。当前配置不记录 URL 查询参数和锚点，并尊重浏览器的 Do Not Track 设置。后台保持私有，不启用公开分享链接、会话回放或自定义用户身份。统计数据从接入时开始积累，无法补回此前访问。
+Umami 自带的页面导航跟踪负责记录 Swup 的站内跳转。统计脚本标记了 `data-swup-ignore-script`，避免 Swup 在页面切换时重新执行脚本，也不额外绑定计数。当前配置不记录 URL 查询参数和锚点，并尊重浏览器的 Do Not Track 设置。后台保持私有，不启用公开分享链接、会话回放或自定义用户身份。统计数据从接入时开始积累，无法补回此前访问。
 
 参考：[接入文档](https://docs.umami.is/docs/collect-data)、[跟踪配置](https://docs.umami.is/docs/tracker-configuration)。
 
